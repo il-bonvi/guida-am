@@ -14,6 +14,7 @@
       --aerobic: #22c55e;
       --lactic: #f59e0b;
       --alactic: #ef4444;
+      --chem: #a855f7;
       --text: #e2e8f0;
       --muted: #94a3b8;
       --border: #2d3a4f;
@@ -75,7 +76,7 @@
 
     .tab-btn {
       flex: 1;
-      min-width: 120px;
+      min-width: 110px;
       padding: 0.65rem 0.75rem;
       border: 1px solid var(--border);
       background: var(--card);
@@ -117,6 +118,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .card h3 {
@@ -138,6 +140,26 @@
     .badge-lactic { background: rgba(245,158,11,0.2); color: var(--lactic); }
     .badge-alactic { background: rgba(239,68,68,0.2); color: var(--alactic); }
     .badge-atp { background: rgba(59,130,246,0.2); color: #60a5fa; }
+    .badge-chem { background: rgba(168,85,247,0.2); color: #c084fc; }
+
+    /* CHEMISTRY BOXES */
+    .chem-box {
+      background: rgba(168, 85, 247, 0.07);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .chem-title {
+      color: #d8b4fe;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
     .formula {
       background: #0d1117;
@@ -145,15 +167,37 @@
       border-radius: 10px;
       padding: 0.9rem 1rem;
       font-family: 'Cascadia Code', 'Fira Code', monospace;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       margin: 0.75rem 0;
       overflow-x: auto;
       text-align: center;
+      line-height: 1.5;
     }
 
     .formula .energy { color: #fbbf24; font-weight: 700; }
-    .formula .waste { color: #f87171; }
-    .formula .good { color: #4ade80; }
+    .formula .waste { color: #f87171; font-weight: 700; }
+    .formula .good { color: #4ade80; font-weight: 700; }
+    .formula .ion { color: #38bdf8; font-weight: 700; }
+
+    .chem-step {
+      background: #0d1117;
+      border-left: 3px solid var(--chem);
+      padding: 0.6rem 0.9rem;
+      margin: 0.5rem 0;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+    }
+
+    .cell-diagram {
+      background: #0d1117;
+      border: 2px dashed #475569;
+      border-radius: 20px;
+      padding: 1rem;
+      margin: 0.8rem 0;
+      text-align: center;
+      font-family: monospace;
+      font-size: 0.88rem;
+    }
 
     ul.clean {
       list-style: none;
@@ -301,15 +345,6 @@
     .option.wrong { background: rgba(239,68,68,0.15); border-color: var(--danger); color: #fca5a5; }
     .option.disabled { cursor: default; opacity: 0.85; }
 
-    .feedback {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      display: none;
-    }
-
-    .feedback.show { display: block; }
-
     .score-box {
       text-align: center;
       padding: 1.2rem;
@@ -336,7 +371,7 @@
 
     .flashcard {
       width: 100%;
-      min-height: 160px;
+      min-height: 170px;
       position: relative;
       transform-style: preserve-3d;
       transition: transform 0.5s;
@@ -396,6 +431,7 @@
       justify-content: center;
       gap: 0.4rem;
       margin-top: 0.8rem;
+      flex-wrap: wrap;
     }
 
     .dot {
@@ -428,7 +464,7 @@
   <div class="container">
     <header>
       <h1>⚡ ATP & Metabolismi Energetici</h1>
-      <p>Guida studio rapida interattiva · Fisiologia dello sport</p>
+      <p>Guida studio rapida interattiva · Fisiologia e Chimica dello sport</p>
     </header>
 
     <nav class="tabs">
@@ -448,8 +484,8 @@
         <p>Immagina l’ATP come una <strong>batteria ricaricabile</strong> che ogni cellula del tuo corpo usa per lavorare.</p>
         <p><strong>ATP</strong> = Acido Adenosintrifosfato → è fatto di:</p>
         <ul class="clean">
-          <li>1 pezzo centrale chiamato <strong>adenosina</strong></li>
-          <li>3 “pezzi di energia” chiamati <strong>fosfati</strong> (P)</li>
+          <li>1 pezzo centrale chiamato <strong>adenosina</strong> (A)</li>
+          <li>3 “pezzi di energia” chiamati <strong>ioni fosfato inorganico</strong> (P)</li>
         </ul>
         <div class="formula">A — P — P — P</div>
         <p>I legami tra questi fosfati sono come molle compresse: quando si spezzano, rilasciano tanta energia (circa <strong>7–12 kcal</strong>).</p>
@@ -459,70 +495,88 @@
         <h2>Cosa succede quando usiamo energia?</h2>
         <p>Ogni volta che muovi un muscolo, pensi, o anche solo respiri, stai “spendendo” ATP.</p>
         <div class="formula">
-          A — P — P ~ P &nbsp;→&nbsp; A — P — P + <span class="energy">Energia</span> + P
+          A — P — P <span class="energy">~</span> P &nbsp;⇒&nbsp; A — P — P + <span class="energy">(E)</span> + P
         </div>
         <p>Rimane l’<strong>ADP</strong> (Adenosina Difosfato) + un fosfato libero. Sono un po’ come una batteria scarica + un pezzo staccato.</p>
+        
+        <!-- APPROFONDIMENTO CHIMICO ATP -->
+        <div class="chem-box">
+          <div class="chem-title">🧪 Decifriamo i simboli dei tuoi appunti</div>
+          <div class="chem-step">
+            <strong>Cos'è il simbolo <span style="color:#fbbf24">~</span> (onda)?</strong><br>
+            In biochimica indica un <strong>legame chimico ad alta energia</strong>. Non è un legame normale: tiene uniti due gruppi fosfato (che avrebbero cariche negative e tenderebbero a respingersi) come una molla tesa.
+          </div>
+          <div class="chem-step">
+            <strong>Cos'è la <span style="color:#fbbf24">(E)</span> cerchiata negli appunti?</strong><br>
+            È l'<strong>Energia chimica</strong> intrappolata dentro quel legame. Quando spezzi l'ultimo fosfato (<em>idrolisi dell'ATP</em>), quella E esce fuori e il corpo la trasforma in <strong>Energia Cinetica</strong> (contrazione del muscolo) + <strong>Calore</strong> (per questo sudiamo quando ci alleniamo!).
+          </div>
+          <div class="chem-step">
+            <strong>Perché "Tri" diventa "Di"?</strong><br>
+            <strong>ATP</strong> = Adenosina <strong>Tri</strong>fosfato (3 fosfati: A-P-P-P).<br>
+            <strong>ADP</strong> = Adenosina <strong>Di</strong>fosfato (2 fosfati: A-P-P) + 1 P staccato.
+          </div>
+        </div>
+
         <div class="highlight">
           <strong>Problema:</strong> le scorte di ATP nelle cellule sono poche, bastano per pochi secondi di lavoro intenso.<br>
-          Quindi il corpo deve <strong>ricaricare continuamente</strong> l’ADP + P e trasformarli di nuovo in ATP.
+          Quindi il corpo deve <strong>risintetizzare</strong> (ricaricare) continuamente ADP + P per riattaccare il terzo fosfato e tornare ad avere ATP.
         </div>
-        <p style="margin-top:0.8rem;"><strong>Esempio concreto:</strong> se fai uno sprint di 10 secondi, le tue cellule muscolari hanno già “bruciato” quasi tutto l’ATP disponibile. Senza un sistema veloce per ricaricarlo, ti fermeresti subito.</p>
       </div>
 
       <div class="card">
         <h2>Come si ricarica l’ATP? Le 3 “centrali elettriche”</h2>
-        <p>Il corpo ha tre modi diversi per rimettere insieme ADP + P e riformare ATP. Si chiamano <strong>metabolismi energetici</strong>:</p>
+        <p>Per riattaccare la P libera all'ADP serve nuova energia <strong>(E)</strong>, che prendiamo dal <strong>cibo</strong> (<em>substrato energetico</em>). Il corpo usa tre vie:</p>
         <ul class="clean">
           <li><strong>Metabolismo Aerobico</strong> → usa ossigeno, è lento ma molto efficiente (come una macchina a basso consumo)</li>
           <li><strong>Metabolismo Anaerobico Lattacido</strong> → non usa ossigeno, è più veloce ma produce “rifiuti” (lattato)</li>
           <li><strong>Metabolismo Anaerobico Alattacido</strong> → il più veloce di tutti, ma dura pochissimo</li>
         </ul>
-        <p style="margin-top:0.8rem;">L’energia per ricaricare arriva dal <strong>cibo</strong> (carboidrati, grassi, proteine) che chiamiamo <em>substrato energetico</em>.</p>
       </div>
     </div>
 
     <!-- ========== TAB AEROBICO ========== -->
     <div id="aerobico" class="panel">
       <div class="card">
-        <h2><span class="badge badge-aerobic">Aerobico</span> Metabolismo Aerobico (con ossigeno)</h2>
-        <p>Questo è il sistema che usi quando cammini, fai una camminata lunga, corri piano o stai seduto a studiare.</p>
-        <p>Avviene nei <strong>mitocondri</strong> (le “centrali energetiche” della cellula) e usa una serie di reazioni chiamata <strong>Ciclo di Krebs</strong>.</p>
-        <div class="highlight">
-          In pratica: prendi una molecola di cibo (glucosio o grassi), la “bruci” lentamente con l’ossigeno e ricavi tanta energia per fare ATP.
-        </div>
+        <h2><span class="badge badge-aerobic">Aerobico</span> Metabolismo Aerobico (o Ossidativo)</h2>
+        <p>Questo è il sistema che usi quando cammini, corri piano o stai seduto a studiare.</p>
+        <p>Avviene nei <strong>mitocondri</strong> di tutte le cellule (non solo quelle muscolari) attraverso una serie di reazioni chiamata <strong>Ciclo di Krebs</strong>.</p>
       </div>
 
       <div class="card">
-        <h3>Cosa brucia?</h3>
+        <h3>Cosa brucia e perché si chiama "Ossidativo"?</h3>
         <ul class="clean">
-          <li><strong>Glucidi</strong> (zucchero, pasta, pane…)</li>
+          <li><strong>Glucidi</strong> (carboidrati/zuccheri)</li>
           <li><strong>Lipidi</strong> (grassi)</li>
-          <li>In misura minore anche le proteine</li>
+          <li>In misura minore anche i <strong>Protidi</strong> (proteine)</li>
         </ul>
-        <p style="margin-top:0.7rem;">Prima di entrare nel Ciclo di Krebs, glucidi e lipidi vengono trasformati in <strong>glucosio</strong> (C₆H₁₂O₆). È come se li riducessi a “benzina già pronta”.</p>
-        <p><strong>Esempio:</strong> quando mangi una banana prima di una corsa lenta, il tuo corpo trasforma i suoi zuccheri in glucosio e lo usa nei mitocondri per produrre ATP per ore.</p>
+
+        <!-- APPROFONDIMENTO CHIMICO AEROBICO -->
+        <div class="chem-box">
+          <div class="chem-title">🧪 La chimica dell'Aerobico: Ossidazione e Glucosio</div>
+          <div class="chem-step">
+            <strong>1. Cosa significa che O₂ "ossida" il substrato?</strong><br>
+            Negli appunti hai scritto: <em>"O₂ ha proprietà di ossidazione (≈ combustione)"</em>. Chimicamente, ossidare significa <strong>strappare elettroni e rompere i legami chimici</strong> della molecola di cibo (esattamente come fa il fuoco quando brucia la legna). Rompendo questi legami, si libera l'energia <strong>(E)</strong> che serve a riattaccare P ad ADP.
+          </div>
+          <div class="chem-step">
+            <strong>2. La formula del Glucosio: C₆H₁₂O₆</strong><br>
+            Significa che una singola molecola di glucosio è fatta da <strong>6 atomi di Carbonio (C)</strong>, <strong>12 di Idrogeno (H)</strong> e <strong>6 di Ossigeno (O)</strong>. Glucidi complessi e lipidi vengono "smontati" fino a diventare glucosio (<em>"benzina pronta"</em>) perché il Ciclo di Krebs accetta solo mattoncini semplici.
+          </div>
+          <div class="chem-step">
+            <strong>3. Da dove escono gli scarti CO₂ e H₂O?</strong><br>
+            Guarda gli atomi del glucosio (C, H, O) + l'Ossigeno che respiri (O₂):<br>
+            • Il Carbonio (C) si lega all'Ossigeno → forma <strong>CO₂</strong> (anidride carbonica, che butti fuori espirando).<br>
+            • L'Idrogeno (H) si lega all'Ossigeno → forma <strong>H₂O</strong> (acqua, che il corpo trattiene).
+          </div>
+          <div class="formula">
+            <span class="good">C₆H₁₂O₆</span> + 6 O₂ + 38 ADP + 38 P &nbsp;→&nbsp; 6 <span class="ion">CO₂</span> + 6 <span class="ion">H₂O</span> + <span class="energy">38 ATP</span>
+          </div>
+        </div>
       </div>
 
       <div class="card">
-        <h3>Quanto rende?</h3>
-        <div class="formula">
-          1 molecola di Glucosio → energia per fare circa <span class="good">38 ATP</span>
-        </div>
-        <p>È il sistema <strong>più efficiente</strong>: con poco “carburante” ottieni tantissima energia. Il problema è che è <strong>lento</strong>. Se alzi troppo l’intensità (es. inizi a sprintare), non riesce a tenere il passo.</p>
-        <div class="warning">
-          <strong>Scarti:</strong> solo acqua (H₂O) e anidride carbonica (CO₂).<br>
-          L’acqua la trattieni, la CO₂ la butti fuori respirando. Nessun problema, nessun “avvelenamento”.
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Quando lo usi davvero?</h3>
-        <ul class="clean">
-          <li>Camminata, corsa lenta, ciclismo a ritmo comodo, nuoto a bassa intensità</li>
-          <li>Qualsiasi attività che riesci a mantenere per molti minuti o ore senza andare in affanno grave</li>
-        </ul>
-        <p style="margin-top:0.8rem;"><strong>Analogia facile:</strong> è come una Fiat Panda. Consuma poco, va lontano, ma non è fatta per le accelerazioni brusche.</p>
-        <p style="margin-top:0.5rem;color:var(--muted);font-size:0.9rem;">Se l’intensità sale troppo e il consumo di energia supera quello che l’aerobico riesce a produrre → entrano in gioco gli altri due sistemi.</p>
+        <h3>Pro e Contro</h3>
+        <p>È il sistema <strong>più efficiente</strong> (38 ATP da 1 solo glucosio), ma è <strong>lento</strong>: nell'unità di tempo risintetizza poca ATP. Se alzi troppo l'intensità, il consumo supera la capacità dell'aerobico.</p>
+        <p style="margin-top:0.8rem;"><strong>Analogia facile:</strong> è come una <strong>Fiat Panda (utilitaria)</strong>. Consuma poco, grande efficienza, va lontano, ma è molto lenta.</p>
       </div>
     </div>
 
@@ -530,42 +584,56 @@
     <div id="lattacido" class="panel">
       <div class="card">
         <h2><span class="badge badge-lactic">Lattacido</span> Metabolismo Anaerobico Lattacido</h2>
-        <p>Questo sistema entra in gioco quando fai uno sforzo <strong>intenso ma non brevissimo</strong>: una ripetuta di 400 metri, una salita ripida in bici, un round di boxe, un esercizio di forza con poche ripetizioni pesanti.</p>
+        <p>Entra in gioco negli sforzi intensi di media durata (circa <strong>1–3 minuti</strong>, es. 400m o 800m, una salita ripida).</p>
         <ul class="clean">
-          <li>Funziona <strong>senza ossigeno</strong></li>
-          <li>È presente <strong>solo nei muscoli</strong></li>
-          <li>Usa una reazione chiamata <strong>glicolisi</strong>: spezza il glucosio in modo parziale e veloce</li>
+          <li>Presente <strong>solo nelle fibre muscolari</strong></li>
+          <li>Funziona <strong>in assenza di O₂</strong></li>
+          <li>Usa <strong>Glucidi</strong> (+ protidi) tramite una reazione chiamata <strong>Glicolisi</strong></li>
         </ul>
-        <div class="highlight">
-          “Parziale” significa: non estrae tutta l’energia possibile dal glucosio (come fa l’aerobico), ma è molto più veloce. Il prezzo? Produce uno scarto: il <strong>lattato</strong>.
+      </div>
+
+      <div class="card">
+        <h3>La chimica: Glicolisi, Lattato (La⁻) e Acido Lattico (LaH)</h3>
+        <p>Non essendoci ossigeno, il muscolo non può smontare tutto il glucosio fino a CO₂ e H₂O. Fa quindi una <strong>demolizione parziale</strong> per fare in fretta.</p>
+
+        <!-- APPROFONDIMENTO CHIMICO LATTACIDO -->
+        <div class="chem-box">
+          <div class="chem-title">🧪 Capire le cariche (+ e -) e il disegno della cellula</div>
+          <div class="chem-step">
+            <strong>1. Perché la glicolisi è "parziale"?</strong><br>
+            Spezza a metà la molecola di glucosio (che ha 6 atomi di carbonio) in due pezzi più piccoli da 3 atomi di carbonio. Si libera molta meno energia rispetto all'aerobico (solo <strong>2 ATP</strong> invece di 38!), ma avviene in modo rapidissimo.
+          </div>
+          <div class="chem-step">
+            <strong>2. Lo scarto: cos'è il Lattato (La⁻)?</strong><br>
+            Il pezzo di glucosio avanzato si trasforma in <strong>Lattato (La⁻)</strong>. Quel simbolo <strong>"-"</strong> in alto significa che è uno <em>ione con carica elettrica negativa</em>.
+          </div>
+          <div class="formula">
+            ADP + P + Glucosio &nbsp;→&nbsp; ADP + P + <span class="energy">(E)</span> + <span class="waste">La⁻</span> &nbsp;⇒&nbsp; <span class="good">ATP</span> + <span class="waste">La⁻</span>
+          </div>
+          <div class="chem-step">
+            <strong>3. Il disegno negli appunti: perché si forma l'Acido Lattico (LaH)?</strong><br>
+            L'organismo cerca sempre l'<strong>equilibrio elettrico</strong> (stesso numero di cariche + e -).<br>
+            • Dentro la cellula si accumulano tanti <strong>La⁻</strong> (carica negativa).<br>
+            • Per bilanciare queste cariche negative, la cellula richiama dall'esterno ioni Idrogeno <strong>H⁺</strong> (carica positiva, responsabili dell'acidità!).<br>
+            • Quando uno ione negativo e uno positivo si uniscono: <strong>La⁻ + H⁺ → LaH (Acido Lattico)</strong>.
+          </div>
+
+          <div class="cell-diagram">
+            <div style="color:#94a3b8; margin-bottom:0.4rem;">[ Esterno cellula: ioni <span style="color:#38bdf8">H⁺</span> ]</div>
+            <div style="border: 1px solid #3b82f6; border-radius: 14px; padding: 0.7rem; background: rgba(59,130,246,0.08);">
+              <strong>INTERNO CELLULA MUSCOLARE</strong><br>
+              Accumulo di <span style="color:#f87171">La⁻</span> (negativi) attira <span style="color:#38bdf8">H⁺</span> (positivi)<br>
+              ↓<br>
+              <span style="color:#f87171">La⁻</span> + <span style="color:#38bdf8">H⁺</span> = <strong style="color:#fbbf24">LaH (Acido Lattico)</strong>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="card">
-        <h3>Cosa brucia e cosa produce</h3>
-        <p>Usa soprattutto i <strong>glucidi</strong> (zucchero già presente nei muscoli e nel sangue).</p>
-        <div class="formula">
-          Glucosio + ADP + P → ATP + <span class="waste">Lattato (La⁻)</span>
-        </div>
-        <p><strong>Esempio pratico:</strong> fai 8 ripetizioni di squat pesanti. Dopo 40-50 secondi le gambe bruciano e “pesano”. Quel bruciore è legato all’accumulo di lattato e ioni H⁺.</p>
-      </div>
-
-      <div class="card">
-        <h3>Quanto dura e quanto è potente?</h3>
-        <ul class="clean">
-          <li>Potenza: buona (molto più veloce dell’aerobico)</li>
-          <li>Durata tipica: circa <strong>1–3 minuti</strong> di sforzo intenso</li>
-        </ul>
-        <p style="margin-top:0.7rem;"><strong>Analogia:</strong> è come un’auto sportiva. Va forte, ha una buona autonomia (non si spegne dopo 5 secondi), ma non può andare a quel ritmo per ore.</p>
-      </div>
-
-      <div class="card">
-        <h3>Perché si spegne da solo? (sistema autolimitante)</h3>
-        <p>Più lattato si accumula, più i muscoli diventano “acidi”. Mandano un segnale di fatica al cervello (SNC). Superata una certa soglia, il cervello dice “basta” e riduce la forza o ti ferma.</p>
-        <div class="warning">
-          Non è un “veleno” permanente: a riposo il corpo smaltisce il lattato. È un meccanismo di protezione per non danneggiare i muscoli.
-        </div>
-        <p style="margin-top:0.6rem;"><strong>Esempio:</strong> alla fine di una gara di 800 metri sei distrutto e le gambe non rispondono più. Dopo 10-15 minuti di recupero, riesci di nuovo a camminare e poi a correre. Il sistema ha “ripulito”.</p>
+        <h3>Perché si spegne da solo? (Sistema autolimitante)</h3>
+        <p>Più aumenta l'acidità (ioni H⁺ e lattato), più i muscoli inviano al <strong>SNC (Sistema Nervoso Centrale)</strong> la sensazione di fatica e bruciore. Superato un certo limite, il SNC invia lo <strong>STOP</strong> ai muscoli per proteggerli.</p>
+        <p style="margin-top:0.7rem;"><strong>Analogia:</strong> è come un’<strong>Auto Sportiva</strong>. Prestazioni migliori dell'utilitaria, discreta durata (1-3 minuti), ma non può andare all'infinito.</p>
       </div>
     </div>
 
@@ -573,40 +641,42 @@
     <div id="alattacido" class="panel">
       <div class="card">
         <h2><span class="badge badge-alactic">Alattacido</span> Metabolismo Anaerobico Alattacido</h2>
-        <p>Questo è il sistema dell’<strong>esplosività</strong>. Nessun ossigeno, nessun lattato. Solo potenza pura per pochi secondi.</p>
+        <p>Il sistema dell’<strong>esplosività massima</strong> (sprint, salti, lanci). Dura pochissimi secondi ma sprigiona la potenza più alta in assoluto.</p>
         <div class="highlight">
-          È il più semplice e il più potente dei tre. Nell’unità di tempo produce più energia di tutti, ma le “scorte” finiscono in un attimo.
+          <strong>[No O₂ · No La⁻]</strong> → Non usa ossigeno e non produce acido lattico/lattato. Avviene nel <strong>sarcoplasma</strong> (il liquido interno della cellula muscolare).
         </div>
       </div>
 
       <div class="card">
-        <h3>Come funziona? La fosfocreatina</h3>
-        <p>Dentro i muscoli (nel sarcoplasma) c’è una molecola chiamata <strong>fosfocreatina</strong> (PC o PCr). Ha un legame energetico pronto all’uso.</p>
-        <div class="formula">
-          Fosfocreatina + ADP → ATP + Creatina
+        <h3>La chimica: la Fosfocreatina (PC)</h3>
+        <p>È il metodo più semplice e rapido perché non deve "smontare" zuccheri o grassi: usa una molecola già pronta nel muscolo chiamata <strong>Fosfocreatina</strong>.</p>
+
+        <!-- APPROFONDIMENTO CHIMICO ALATTACIDO -->
+        <div class="chem-box">
+          <div class="chem-title">🧪 Come si legge lo schema di Pagina 4</div>
+          <div class="chem-step">
+            <strong>Cos'è la Fosfocreatina (P ~ C)?</strong><br>
+            È formata da una molecola di <strong>Creatina (C)</strong> legata a un <strong>gruppo Fosfato (P)</strong> tramite un legame ad alta energia (<strong>~</strong>).
+          </div>
+          <div class="chem-step">
+            <strong>Passaggio per passaggio (le 4 righe dei tuoi appunti):</strong><br>
+            1. <strong>P ~ C</strong> → La fosfocreatina è carica e pronta.<br>
+            2. <strong>P (E) C</strong> → Si rompe il legame tra P e C, liberando subito energia <strong>(E)</strong>.<br>
+            3. <strong>ADP + P + C</strong> → L'energia (E) e il fosfato (P) staccato dalla creatina vengono passati subito all'ADP.<br>
+            4. <strong>ATP + C</strong> → L'ADP torna ad essere <strong>ATP</strong> e rimane creatina libera (C), che verrà ricaricata durante il recupero!
+          </div>
+          <div class="formula">
+            P <span class="energy">~</span> C + ADP &nbsp;→&nbsp; <span class="good">ATP</span> + C
+          </div>
         </div>
-        <p>In pratica: la fosfocreatina “regala” il suo fosfato all’ADP e lo trasforma subito in ATP. Reazione rapidissima, quasi istantanea.</p>
-        <p><strong>Esempio:</strong> il primo secondo di uno sprint dei 100 metri, il salto in alto, un lancio del peso, un sollevamento massimale di 1 ripetizione. Quasi tutta l’energia viene da qui.</p>
       </div>
 
       <div class="card">
-        <h3>Quanto dura?</h3>
+        <h3>Pro, Contro e Analogia</h3>
         <ul class="clean">
-          <li>Potenza: la massima possibile</li>
-          <li>Durata: pochi secondi (circa 0–10/15 secondi di sforzo massimale)</li>
-        </ul>
-        <p style="margin-top:0.7rem;"><strong>Analogia:</strong> è un dragster. Accelerazione pazzesca, ma dopo pochi secondi ha già finito il carburante.</p>
-        <p style="margin-top:0.5rem;">Dopo uno sforzo massimale di 5-8 secondi, se vuoi ripetere, hai bisogno di recupero (anche 1-3 minuti) perché le scorte di fosfocreatina si devono ricostruire.</p>
-      </div>
-
-      <div class="card">
-        <h3>Esempi di sport/attività</h3>
-        <ul class="clean">
-          <li>Sprint 60-100 metri</li>
-          <li>Salti (in alto, in lungo, pliomatrice)</li>
-          <li>Lanci (peso, giavellotto…)</li>
-          <li>Alzate massimali di forza (1RM)</li>
-          <li>Cambi di direzione esplosivi nel calcio o basket</li>
+          <li><strong>Pro:</strong> energia massima nell'unità di tempo, reazione istantanea.</li>
+          <li><strong>Contro:</strong> pochissima resistenza (scorte esaurite in 6–10 secondi).</li>
+          <li><strong>Analogia:</strong> è un <strong>Dragster</strong> (auto da accelerazione). Brucia tutto in pochi secondi per una spinta bruciante.</li>
         </ul>
       </div>
     </div>
@@ -618,11 +688,11 @@
           <div class="emoji">🚗</div>
           <h3>Aerobico</h3>
           <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.6rem;">Utilitaria (Panda)</p>
-          <div class="stat"><span>O₂</span><span>Sì</span></div>
+          <div class="stat"><span>O₂</span><span>Sì (Ossidazione)</span></div>
+          <div class="stat"><span>Substrato</span><span>Glucidi, Lipidi (Protidi)</span></div>
+          <div class="stat"><span>Reazione</span><span>Ciclo di Krebs</span></div>
+          <div class="stat"><span>Resa</span><span>~38 ATP / glucosio</span></div>
           <div class="stat"><span>Scarti</span><span>CO₂ + H₂O</span></div>
-          <div class="stat"><span>ATP / glucosio</span><span>~38</span></div>
-          <div class="stat"><span>Potenza</span><span>Bassa</span></div>
-          <div class="stat"><span>Durata</span><span>Molto lunga</span></div>
           <div class="stat"><span>Dove</span><span>Mitocondri</span></div>
         </div>
 
@@ -631,10 +701,10 @@
           <h3>Anaerobico Lattacido</h3>
           <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.6rem;">Auto sportiva</p>
           <div class="stat"><span>O₂</span><span>No</span></div>
-          <div class="stat"><span>Scarti</span><span>Lattato (La⁻)</span></div>
-          <div class="stat"><span>Via</span><span>Glicolisi</span></div>
-          <div class="stat"><span>Potenza</span><span>Media-Alta</span></div>
-          <div class="stat"><span>Durata</span><span>1–3 min</span></div>
+          <div class="stat"><span>Substrato</span><span>Glucidi (+ Protidi)</span></div>
+          <div class="stat"><span>Reazione</span><span>Glicolisi (parziale)</span></div>
+          <div class="stat"><span>Durata</span><span>1–3 minuti</span></div>
+          <div class="stat"><span>Scarti</span><span>Lattato (La⁻) → LaH</span></div>
           <div class="stat"><span>Dove</span><span>Fibre muscolari</span></div>
         </div>
 
@@ -643,57 +713,37 @@
           <h3>Anaerobico Alattacido</h3>
           <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.6rem;">Dragster</p>
           <div class="stat"><span>O₂</span><span>No</span></div>
-          <div class="stat"><span>Scarti</span><span>Nessuno (La⁻)</span></div>
-          <div class="stat"><span>Via</span><span>Fosfocreatina</span></div>
-          <div class="stat"><span>Potenza</span><span>Massima</span></div>
+          <div class="stat"><span>Substrato</span><span>Fosfocreatina (PC)</span></div>
+          <div class="stat"><span>Reazione</span><span>Scissione PC</span></div>
           <div class="stat"><span>Durata</span><span>Pochissimi secondi</span></div>
+          <div class="stat"><span>Scarti</span><span>Nessun lattato (solo C)</span></div>
           <div class="stat"><span>Dove</span><span>Sarcoplasma</span></div>
         </div>
       </div>
 
       <div class="card" style="margin-top:1.2rem;">
-        <h2>In pratica: quale sistema stai usando?</h2>
-        <p style="margin-bottom:0.8rem;color:var(--muted);font-size:0.9rem;">Esempi concreti per ragionare velocemente:</p>
-        <ul class="clean">
-          <li><strong>Camminata di 40 minuti o corsa lenta</strong> → quasi tutto aerobico</li>
-          <li><strong>Ripetute di 400 m o un round di combattimento</strong> → tanto lattacido</li>
-          <li><strong>Sprint dei 60-100 m o un salto massimale</strong> → soprattutto alattacido</li>
-          <li><strong>Partita di calcio / basket</strong> → mix continuo dei tre (a seconda del momento)</li>
-        </ul>
-        <p style="margin-top:0.9rem;">Nella realtà i tre sistemi lavorano quasi sempre insieme: cambia solo quale è dominante in quel momento.</p>
-      </div>
-
-      <div class="card" style="margin-top:1.2rem;">
-        <h2>Domande frequenti (clicca per aprire)</h2>
+        <h2>Domande frequenti di chimica (clicca per aprire)</h2>
         <div class="accordion-item">
-          <button class="accordion-header">Perché l’ATP va ricaricato continuamente? <span class="arrow">▼</span></button>
+          <button class="accordion-header">Che differenza c'è tra Lattato (La⁻) e Acido Lattico (LaH)? <span class="arrow">▼</span></button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              Perché ne abbiamo pochissimo immagazzinato. Bastano pochi secondi di sforzo intenso per “scaricare” le batterie. Se non lo ricarichiamo subito, i muscoli si fermano. Per questo esistono i tre sistemi di risintesi.
+              La glicolisi produce direttamente <strong>Lattato (La⁻)</strong>, che ha una carica negativa. Per mantenere l'equilibrio elettrico dentro la cellula, il lattato si lega a uno ione idrogeno positivo (<strong>H⁺</strong>), formando l'<strong>Acido Lattico (LaH)</strong>. Sono gli ioni H⁺ a creare l'acidità che fa "bruciare" il muscolo.
             </div>
           </div>
         </div>
         <div class="accordion-item">
-          <button class="accordion-header">Perché dopo uno sforzo intenso le gambe “bruciano”? <span class="arrow">▼</span></button>
+          <button class="accordion-header">Perché l'ossigeno serve solo nel primo metabolismo? <span class="arrow">▼</span></button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              Perché stai usando il sistema lattacido. Si accumula lattato e ioni H⁺, l’ambiente diventa più acido e i muscoli segnalano fatica al cervello. È un meccanismo di protezione, non un danno permanente. Con il recupero il corpo smaltisce tutto.
+              Perché l'ossigeno serve a smontare completamente la molecola di glucosio (C₆H₁₂O₆) fino a trasformarla in CO₂ e H₂O nel Ciclo di Krebs. Questo processo estrae tantissima energia (38 ATP), ma richiede tempo. Quando serve energia subito, il muscolo salta l'ossigeno e usa vie più corte (PC o glicolisi).
             </div>
           </div>
         </div>
         <div class="accordion-item">
-          <button class="accordion-header">Cosa significa che il glucosio è “benzina pronta”? <span class="arrow">▼</span></button>
+          <button class="accordion-header">Cosa vuol dire "carico relativo" (nota in alto a Pagina 4)? <span class="arrow">▼</span></button>
           <div class="accordion-body">
             <div class="accordion-body-inner">
-              Grassi e carboidrati complessi devono prima essere spezzati e trasformati. Il glucosio è già nella forma semplice che il Ciclo di Krebs può usare subito, come benzina già nel serbatoio.
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <button class="accordion-header">Posso “allenare” questi sistemi? <span class="arrow">▼</span></button>
-          <div class="accordion-body">
-            <div class="accordion-body-inner">
-              Sì. L’allenamento specifico migliora la capacità di ogni sistema: lavoro lungo e lento per l’aerobico, ripetute intense di 1-3 minuti per il lattacido, sprint e lavori esplosivi con recupero lungo per l’alattacido.
+              In ambito sportivo significa calibrare l'intensità dell'allenamento (e quindi quale metabolismo attivare) in modo scientifico e personalizzato sulle capacità del singolo atleta, invece di dare lo stesso peso o ritmo a tutti.
             </div>
           </div>
         </div>
@@ -722,7 +772,7 @@
     <div id="quiz" class="panel">
       <div class="card">
         <h2>Quiz di autovalutazione</h2>
-        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.2rem;">Scegli la risposta corretta. Riceverai feedback immediato.</p>
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.2rem;">Scegli la risposta corretta (include anche domande sulle formule chimiche!).</p>
 
         <div id="quiz-container"></div>
 
@@ -736,7 +786,7 @@
     </div>
 
     <footer>
-      Basata sugli appunti di fisiologia · ATP, ciclo di Krebs, glicolisi e fosfocreatina
+      Basata sugli appunti di fisiologia · ATP, Ciclo di Krebs, Glicolisi e Fosfocreatina
     </footer>
   </div>
 
@@ -756,7 +806,6 @@
       header.addEventListener('click', () => {
         const body = header.nextElementSibling;
         const isOpen = header.classList.contains('open');
-        // close all
         document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
         document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
         if (!isOpen) {
@@ -768,18 +817,16 @@
 
     // ===== FLASHCARDS =====
     const cards = [
-      { q: "Cosa significa ATP in parole semplici?", a: "È la “batteria” della cellula. Acido Adenosintrifosfato = 1 adenosina + 3 fosfati." },
-      { q: "Perché l’ATP deve essere continuamente ricaricato?", a: "Perché le scorte sono pochissime: bastano pochi secondi di sforzo intenso." },
-      { q: "Quali sono i tre modi per ricaricare l’ATP?", a: "Aerobico (con O₂), Anaerobico Lattacido, Anaerobico Alattacido." },
-      { q: "Dove avviene il metabolismo aerobico?", a: "Nei mitocondri, attraverso il Ciclo di Krebs." },
-      { q: "Quante ATP si ricavano da 1 glucosio in aerobiosi?", a: "Circa 38. È il sistema più efficiente." },
-      { q: "Quali sono gli scarti del sistema aerobico?", a: "Solo CO₂ e H₂O → innocui (respiriamo via la CO₂)." },
-      { q: "Il sistema lattacido usa ossigeno?", a: "No. Funziona in assenza di O₂ e produce lattato." },
-      { q: "Perché dopo uno sforzo intenso le gambe bruciano?", a: "Per l’accumulo di lattato e ioni H⁺ (sistema lattacido)." },
-      { q: "Quanto dura tipicamente il sistema lattacido?", a: "Circa 1–3 minuti di sforzo intenso." },
-      { q: "Quale molecola alimenta il sistema alattacido?", a: "La fosfocreatina (PC). Reazione rapidissima." },
-      { q: "Analogia del sistema aerobico?", a: "Fiat Panda: consuma poco, va lontano, ma è lenta." },
-      { q: "Analogia del sistema alattacido?", a: "Dragster: potenza massima, ma autonomia di pochi secondi." }
+      { q: "Cosa indica il simbolo '~' nella formula A-P-P~P?", a: "Indica un legame chimico ad alta energia: quando si rompe libera 7–12 kcal." },
+      { q: "Qual è la formula chimica del Glucosio?", a: "C₆H₁₂O₆ (6 carboni, 12 idrogeni, 6 ossigeni). È la 'benzina pronta' per il Ciclo di Krebs." },
+      { q: "Cosa significa che O₂ 'ossida' il substrato?", a: "Che rompe i legami chimici del cibo (come una combustione) liberando energia (E) e formando CO₂ e H₂O." },
+      { q: "Quante ATP si ricavano da 1 glucosio in aerobiosi?", a: "Circa 38 ATP. È il sistema più efficiente ma più lento." },
+      { q: "Come si forma l'Acido Lattico (LaH) nella cellula?", a: "Il lattato negativo (La⁻) attira uno ione idrogeno positivo (H⁺) per mantenere l'equilibrio elettrico: La⁻ + H⁺ → LaH." },
+      { q: "Cos'è la Glicolisi?", a: "La demolizione parziale e veloce del glucosio in assenza di ossigeno (tipica del metabolismo lattacido)." },
+      { q: "Come funziona la formula P~C + ADP → ATP + C?", a: "La fosfocreatina (P~C) rompe il suo legame energetico e cede subito il fosfato (P) all'ADP per formare ATP." },
+      { q: "Dove avviene il metabolismo alattacido?", a: "Nel sarcoplasma delle fibre muscolari, senza O₂ e senza produrre lattato." },
+      { q: "Analogia del sistema aerobico?", a: "Utilitaria (Panda): consuma poco, grande efficienza, ma molto lenta." },
+      { q: "Analogia dei sistemi lattacido e alattacido?", a: "Lattacido = Auto sportiva (1–3 min). Alattacido = Dragster (massima potenza, pochissimi secondi)." }
     ];
 
     let currentCard = 0;
@@ -791,7 +838,6 @@
       flipped = false;
       document.getElementById('fc-front').textContent = cards[currentCard].q;
       document.getElementById('fc-back').textContent = cards[currentCard].a;
-      // dots
       const dots = document.getElementById('dots');
       dots.innerHTML = cards.map((_, i) =>
         `<div class="dot ${i === currentCard ? 'active' : ''}"></div>`
@@ -818,43 +864,43 @@
     // ===== QUIZ =====
     const questions = [
       {
-        q: "L’ATP è composto da:",
-        options: ["1 adenosina + 2 fosfati", "1 adenosina + 3 fosfati", "2 adenosina + 3 fosfati", "Solo fosfati ad alta energia"],
+        q: "Cosa si libera quando si rompe il legame ad alta energia (~) dell'ATP?",
+        options: ["Solo anidride carbonica", "Energia (7–12 kcal) trasformata in cinetica + calore", "Acido lattico", "Ossigeno"],
         correct: 1
       },
       {
-        q: "Il metabolismo aerobico avviene principalmente:",
-        options: ["Nel sarcoplasma", "Nei mitocondri", "Nel nucleo cellulare", "Nel sangue"],
+        q: "La formula chimica C₆H₁₂O₆ corrisponde a:",
+        options: ["Fosfocreatina", "Acido lattico", "Glucosio", "Adenosina difosfato"],
+        correct: 2
+      },
+      {
+        q: "Nel metabolismo aerobico, l'ossigeno (O₂) serve a:",
+        options: ["Ossidare il substrato energetico liberando E, CO₂ e H₂O", "Produrre lattato", "Ricaricare la fosfocreatina in 2 secondi", "Bloccare il Ciclo di Krebs"],
+        correct: 0
+      },
+      {
+        q: "Perché nella cellula il lattato (La⁻) si unisce a H⁺ formando LaH?",
+        options: ["Per produrre ossigeno", "Per riportare la cellula in equilibrio elettrico", "Per creare glucosio", "Per attivare i mitocondri"],
         correct: 1
       },
       {
-        q: "Da 1 molecola di glucosio in aerobiosi si ottengono circa:",
+        q: "Nella reazione P~C + ADP → ATP + C, cosa indica la lettera C?",
+        options: ["Carbonio", "Creatina", "Calore", "Cellula"],
+        correct: 1
+      },
+      {
+        q: "Quale metabolismo avviene nel sarcoplasma senza O₂ e senza produrre lattato?",
+        options: ["Aerobico", "Anaerobico lattacido", "Anaerobico alattacido", "Ciclo di Krebs"],
+        correct: 2
+      },
+      {
+        q: "Da 1 molecola di glucosio nel Ciclo di Krebs si ottengono circa:",
         options: ["2 ATP", "12 ATP", "38 ATP", "100 ATP"],
         correct: 2
       },
       {
-        q: "Lo scarto caratteristico del metabolismo anaerobico lattacido è:",
-        options: ["CO₂", "Acqua", "Lattato", "Creatina"],
-        correct: 2
-      },
-      {
-        q: "Il sistema anaerobico alattacido si basa su:",
-        options: ["Glicolisi", "Ciclo di Krebs", "Fosfocreatina", "Beta-ossidazione"],
-        correct: 2
-      },
-      {
-        q: "Quale sistema ha la durata più lunga?",
-        options: ["Alattacido", "Lattacido", "Aerobico", "Tutti uguali"],
-        correct: 2
-      },
-      {
-        q: "L’analogia del “dragster” corrisponde a:",
-        options: ["Metabolismo aerobico", "Metabolismo lattacido", "Metabolismo alattacido", "Nessuno"],
-        correct: 2
-      },
-      {
-        q: "Il metabolismo lattacido è presente:",
-        options: ["In tutte le cellule", "Solo nelle fibre muscolari", "Solo nel fegato", "Solo nel cervello"],
+        q: "Perché il metabolismo lattacido è detto 'autolimitante'?",
+        options: ["Perché finisce l'ossigeno dopo 3 secondi", "Perché l'accumulo di lattato/acidità spinge il SNC a inviare lo STOP ai muscoli", "Perché consuma troppe proteine", "Perché avviene solo a riposo"],
         correct: 1
       }
     ];
@@ -882,7 +928,6 @@
           btn.textContent = opt;
           btn.addEventListener('click', () => {
             if (btn.classList.contains('disabled')) return;
-            // disable all
             opts.querySelectorAll('.option').forEach(o => o.classList.add('disabled'));
             if (oi === item.correct) {
               btn.classList.add('correct');
@@ -907,10 +952,10 @@
       document.getElementById('score-num').textContent = `${score}/${questions.length}`;
       const pct = Math.round((score / questions.length) * 100);
       let msg = '';
-      if (pct === 100) msg = 'Perfetto! Hai padronanza completa degli argomenti.';
-      else if (pct >= 75) msg = 'Ottimo lavoro! Solo qualche dettaglio da rivedere.';
-      else if (pct >= 50) msg = 'Buona base. Rivedi le sezioni dove hai sbagliato.';
-      else msg = 'Rivedi bene le schede e riprova. Ce la farai!';
+      if (pct === 100) msg = 'Perfetto! Hai padronanza completa anche della parte chimica.';
+      else if (pct >= 75) msg = 'Ottimo lavoro! Solo qualche dettaglio chimico da rivedere.';
+      else if (pct >= 50) msg = 'Buona base. Rivedi i riquadri viola della chimica e riprova.';
+      else msg = 'Rileggi i riquadri viola passo passo e riprova!';
       document.getElementById('score-msg').textContent = msg;
     }
 
