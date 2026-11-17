@@ -416,22 +416,6 @@
       margin-top: 2rem;
     }
 
-
-    /* CHIMICA */
-    .chem-table-wrap { overflow-x: auto; margin: 0.8rem 0; }
-    .chem-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 520px; }
-    .chem-table th, .chem-table td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
-    .chem-table th { background: var(--accent-soft); color: #93c5fd; font-weight: 700; }
-    .chem-table td:first-child { color: var(--muted); font-weight: 600; white-space: nowrap; }
-    .chem-table tr.total td { font-weight: 700; background: rgba(34,197,94,0.08); }
-    .gloss { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.7rem; margin-top: 0.6rem; }
-    .gloss div { background: #0d1117; border: 1px solid var(--border); border-radius: 10px; padding: 0.7rem 0.9rem; font-size: 0.88rem; }
-    .gloss b { color: #93c5fd; }
-    .formula .enz { color: #a78bfa; font-size: 0.8rem; }
-    .formula .sub { color: var(--muted); font-size: 0.78rem; display: block; margin-top: 0.3rem; }
-    .goto { color: #93c5fd; cursor: pointer; text-decoration: underline; font-weight: 600; }
-    .danger-box { background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); padding: 0.7rem 1rem; border-radius: 0 8px 8px 0; margin: 0.8rem 0; font-size: 0.92rem; }
-
     /* Mobile tweaks */
     @media (max-width: 500px) {
       header h1 { font-size: 1.4rem; }
@@ -452,7 +436,7 @@
       <button class="tab-btn" data-tab="aerobico">2. Aerobico</button>
       <button class="tab-btn" data-tab="lattacido">3. Lattacido</button>
       <button class="tab-btn" data-tab="alattacido">4. Alattacido</button>
-      <button class="tab-btn" data-tab="chimica">5. Chimica</button>
+      <button class="tab-btn" data-tab="chimica">5. Formule</button>
       <button class="tab-btn" data-tab="confronto">6. Confronto</button>
       <button class="tab-btn" data-tab="flash">Flashcard</button>
       <button class="tab-btn" data-tab="quiz">Quiz</button>
@@ -517,7 +501,6 @@
           <li>In misura minore anche le proteine</li>
         </ul>
         <p style="margin-top:0.7rem;">Prima di entrare nel Ciclo di Krebs, glucidi e lipidi vengono trasformati in <strong>glucosio</strong> (C₆H₁₂O₆). È come se li riducessi a “benzina già pronta”.</p>
-        <p style="margin-top:0.5rem;color:var(--muted);font-size:0.9rem;">Vuoi vedere le reazioni vere? <span class="goto" data-goto="chimica">Vai al tab Chimica →</span></p>
         <p><strong>Esempio:</strong> quando mangi una banana prima di una corsa lenta, il tuo corpo trasforma i suoi zuccheri in glucosio e lo usa nei mitocondri per produrre ATP per ore.</p>
       </div>
 
@@ -629,162 +612,78 @@
       </div>
     </div>
 
-    <!-- ========== TAB CHIMICA ========== -->
+    <!-- ========== TAB FORMULE ========== -->
     <div id="chimica" class="panel">
 
       <div class="card">
-        <h2><span class="badge badge-atp">Chimica</span> Prima delle formule: 6 parole chiave</h2>
-        <p>Quasi tutta la “chimica difficile” si riduce a queste idee. Se ti sono chiare, le reazioni diventano leggibili.</p>
-        <div class="gloss">
-          <div><b>Pi (o “P”)</b><br>Fosfato inorganico libero (HPO₄²⁻). Nei tuoi appunti è il “P” staccato dall’ATP.</div>
-          <div><b>Ossidazione / Riduzione</b><br><em>Ossidare</em> = togliere elettroni (e⁻). <em>Ridurre</em> = dare elettroni. Vanno sempre in coppia. Trucco: <strong>O</strong>ssidazione = <strong>P</strong>erde, <strong>R</strong>iduzione = <strong>G</strong>uadagna.</div>
-          <div><b>NAD⁺ / NADH · FAD / FADH₂</b><br>I “taxi degli elettroni”. Vuoti (NAD⁺) si caricano di e⁻ e H e diventano pieni (NADH), poi vanno a scaricarli nella catena respiratoria.</div>
-          <div><b>Enzima</b><br>Proteina che accelera la reazione. Si riconosce dal nome in <em>-asi</em> o <em>-chinasi</em>. Non compare nel bilancio ma lavora “sopra la freccia”.</div>
-          <div><b>H⁺ e pH</b><br>H⁺ = protone = acidità. Più H⁺ ci sono, più il pH scende (cellula più acida).</div>
-          <div><b>ΔG e kcal/mol</b><br>Energia liberata (o richiesta) da una reazione. ΔG negativo = la reazione <em>rilascia</em> energia. 1 kcal = 4,184 kJ.</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>ATP: la reazione di base</h2>
-        <h3>Spendere ATP (idrolisi)</h3>
-        <div class="formula">
-          ATP + H₂O → ADP + Pi + <span class="energy">energia (≈ 7–12 kcal/mol)</span>
-          <span class="sub">enzima: ATPasi (nel muscolo, miosina-ATPasi → contrazione) · serve Mg²⁺</span>
-        </div>
-        <p>“Idrolisi” = rottura con l’acqua. L’ultimo fosfato si stacca, l’energia liberata diventa <strong>lavoro meccanico + calore</strong> (come scrivi tu: cinetica + calore).</p>
-        <div class="highlight"><strong>Perché si libera tanta energia?</strong> I tre fosfati hanno carica negativa e sono costretti vicini: si respingono come tre calamite dello stesso polo tenute insieme a forza (la “molla compressa”). Staccarne uno scarica la tensione.</div>
-        <h3>Ricaricare ATP (risintesi)</h3>
-        <div class="formula">ADP + Pi + <span class="energy">energia</span> → ATP + H₂O</div>
-        <p>Si chiama <strong>fosforilazione</strong> (= aggiungere un fosfato). Due tipi:</p>
+        <h2>Come leggere i simboli</h2>
         <ul class="clean">
-          <li><strong>A livello del substrato</strong>: il fosfato viene “passato” direttamente da un’altra molecola (fosfocreatina, glicolisi) → veloce</li>
-          <li><strong>Ossidativa</strong>: avviene nei mitocondri, grazie all’ossigeno → lenta ma abbondante</li>
+          <li><strong>A</strong> = adenosina &nbsp;·&nbsp; <strong>P</strong> = fosfato</li>
+          <li><strong>~</strong> = legame “molla”, pieno di energia</li>
+          <li><strong>→</strong> = “si trasforma in” &nbsp;·&nbsp; <strong>+</strong> = “insieme a”</li>
+          <li><strong>⁺ e ⁻</strong> = carica positiva e carica negativa (come i poli di una calamita)</li>
+          <li>I numeri piccoli in basso dicono <strong>quanti atomi</strong>: in H₂O ci sono 2 idrogeni (H) e 1 ossigeno (O); in CO₂ ci sono 1 carbonio (C) e 2 ossigeni.</li>
         </ul>
-        <p style="margin-top:0.6rem;"><span class="goto" data-goto="atp">← torna al tab ATP</span></p>
       </div>
 
       <div class="card">
-        <h2><span class="badge badge-aerobic">Aerobico</span> Il glucosio, passo dopo passo</h2>
-        <h3>La reazione netta (il “riassunto”)</h3>
-        <div class="formula">
-          C₆H₁₂O₆ + 6 O₂ → <span class="waste">6 CO₂ + 6 H₂O</span> + <span class="energy">energia → ≈ 38 ATP</span>
-          <span class="sub">ΔG ≈ −686 kcal per mole di glucosio</span>
-        </div>
-        <div class="highlight"><strong>Dove va ogni pezzo?</strong> I 6 atomi di carbonio del glucosio escono come 6 CO₂ (che espiri). L’O₂ che respiri finisce nell’acqua: serve come <strong>“accettore finale” degli elettroni</strong>. Il glucosio viene ossidato (perde e⁻), l’O₂ viene ridotto (li prende). Per questo il tuo prof dice che l’ossigeno “ossida”.</div>
-
-        <h3>Le 4 tappe</h3>
-        <div class="chem-table-wrap">
-        <table class="chem-table">
-          <tr><th>Tappa</th><th>Dove</th><th>Cosa succede</th><th>Prodotti (per 1 glucosio)</th></tr>
-          <tr><td>1. Glicolisi</td><td>Citoplasma</td><td>Glucosio (6 C) → 2 piruvato (3 C)</td><td>+2 ATP, 2 NADH</td></tr>
-          <tr><td>2. Piruvato → Acetil-CoA</td><td>Mitocondrio</td><td>Ogni piruvato perde 1 CO₂ e diventa Acetil-CoA (2 C)</td><td>2 CO₂, 2 NADH</td></tr>
-          <tr><td>3. Ciclo di Krebs</td><td>Matrice mitocondriale</td><td>L’Acetil-CoA viene “smontato” completamente (2 giri)</td><td>4 CO₂, 6 NADH, 2 FADH₂, 2 GTP (≈ ATP)</td></tr>
-          <tr><td>4. Catena respiratoria</td><td>Membrana interna del mitocondrio</td><td>NADH e FADH₂ cedono gli e⁻, che scorrono fino all’O₂ → H₂O. L’energia fa funzionare l’ATP-sintasi</td><td>La gran parte dell’ATP</td></tr>
-        </table>
-        </div>
-
-        <h3>Come si arriva a 38 ATP (conto classico)</h3>
-        <div class="chem-table-wrap">
-        <table class="chem-table">
-          <tr><th>Fonte</th><th>Quanti</th><th>ATP ciascuno</th><th>Totale</th></tr>
-          <tr><td>Glicolisi (diretti)</td><td>2 ATP</td><td>1</td><td>2</td></tr>
-          <tr><td>NADH glicolisi</td><td>2</td><td>3</td><td>6</td></tr>
-          <tr><td>NADH piruvato → Acetil-CoA</td><td>2</td><td>3</td><td>6</td></tr>
-          <tr><td>Krebs (GTP)</td><td>2</td><td>1</td><td>2</td></tr>
-          <tr><td>NADH Krebs</td><td>6</td><td>3</td><td>18</td></tr>
-          <tr><td>FADH₂ Krebs</td><td>2</td><td>2</td><td>4</td></tr>
-          <tr class="total"><td>TOTALE</td><td></td><td></td><td>38</td></tr>
-        </table>
-        </div>
-        <div class="warning">I testi più recenti usano valori più bassi (NADH ≈ 2,5 ATP, FADH₂ ≈ 1,5 ATP) e arrivano a <strong>circa 30–32 ATP</strong>. Il “38” è il conto classico che c’è nei tuoi appunti: per l’esame usa quello del tuo corso, ma sappi che esiste la versione aggiornata.</div>
-
-        <h3>Perché è lento? La “diga”</h3>
-        <p>Gli elettroni che scorrono nella catena respiratoria spingono H⁺ da un lato all’altro della membrana, come pompare acqua dietro una diga. Gli H⁺ poi rifluiscono attraverso l’<strong>ATP-sintasi</strong>, che gira come un mulino ad acqua e attacca il fosfato all’ADP. Sono tanti passaggi in fila e ci vuole ossigeno disponibile: ecco perché la potenza è bassa.</p>
+        <h2><span class="badge badge-atp">ATP</span> Usare e ricaricare</h2>
+        <h3>1. Usare l’ATP</h3>
+        <div class="formula">A — P — P ~ P &nbsp;→&nbsp; A — P — P + <span class="energy">Energia</span> + P</div>
+        <p>Il legame “molla” (~) si rompe e l’energia liberata serve per muoverti (energia cinetica) e produce calore. Rimangono <strong>ADP</strong> (A–P–P) e un <strong>P</strong> staccato.</p>
+        <h3>2. Ricaricare l’ATP</h3>
+        <div class="formula">ADP + P + <span class="energy">Energia</span> → ATP</div>
+        <p>Per tornare ad ATP serve rimettere insieme ADP e P, e per farlo serve energia. Quella arriva dal cibo, attraverso i tre metabolismi.</p>
+        <div class="highlight"><strong>Esempio:</strong> è come una batteria del telefono. Quando la usi si scarica (ATP → ADP + P), poi la metti in carica (ADP + P → ATP) e puoi usarla di nuovo.</div>
       </div>
 
       <div class="card">
-        <h2><span class="badge badge-aerobic">Aerobico</span> E i grassi?</h2>
-        <p>I lipidi non passano dal glucosio: vengono spezzati in pezzetti da 2 carboni (<strong>β-ossidazione</strong>) che diventano Acetil-CoA ed entrano nel Ciclo di Krebs.</p>
+        <h2><span class="badge badge-aerobic">Aerobico</span> Glucosio + ossigeno</h2>
         <div class="formula">
-          Palmitato (C₁₆H₃₂O₂) + 23 O₂ → <span class="waste">16 CO₂ + 16 H₂O</span> + <span class="energy">≈ 106 ATP</span>
-          <span class="sub">(≈ 129 col conto classico)</span>
+          Glucosio + O₂ → <span class="waste">CO₂ + H₂O</span> + <span class="energy">Energia</span> → <span class="good">38 ATP</span>
         </div>
-        <div class="danger-box"><strong>Precisazione importante:</strong> nei tuoi appunti (e nella guida) c’è scritto che glucidi e lipidi vengono “ridotti a glucosio”. Più correttamente, il punto di incontro è l’<strong>Acetil-CoA</strong>: i glucidi ci arrivano via glicolisi, i lipidi via β-ossidazione. I grassi <em>non</em> diventano glucosio prima di entrare in Krebs. Se all’esame ti chiedono la versione del corso scrivi quella, ma è utile saperlo.</div>
-        <h3>Il quoziente respiratorio (RQ = CO₂ prodotta / O₂ consumato)</h3>
-        <ul class="clean">
-          <li>Glucosio: 6 CO₂ / 6 O₂ = <strong>1,00</strong></li>
-          <li>Palmitato: 16 CO₂ / 23 O₂ ≈ <strong>0,70</strong></li>
-        </ul>
-        <p style="margin-top:0.6rem;">Per ogni litro di ossigeno, il glucosio dà circa il <strong>10–15% di ATP in più</strong> dei grassi. Per questo, quando l’intensità sale, l’organismo passa ai carboidrati. Inoltre l’RQ misurato nel test da sforzo ti dice quale “benzina” si sta bruciando.</p>
-        <p style="margin-top:0.6rem;"><span class="goto" data-goto="aerobico">← torna al tab Aerobico</span></p>
+        <p>Con i numeri giusti la formula è:</p>
+        <div class="formula">C₆H₁₂O₆ + 6 O₂ → <span class="waste">6 CO₂ + 6 H₂O</span> + <span class="energy">Energia</span></div>
+        <p>Il numero grande davanti dice <strong>quante molecole</strong> ci sono. Puoi controllare che i conti tornino: a sinistra ci sono 6 C, 12 H e 18 O (6 + 12); a destra ci sono 6 C, 12 H e 18 O (12 + 6). Non si crea e non si perde niente, i pezzi si ricombinano.</p>
+        <div class="highlight"><strong>Esempio:</strong> è come far bruciare la legna. Legna + ossigeno → anidride carbonica + acqua + calore. Nel corpo succede la stessa cosa, ma lentamente e tenendo sotto controllo l’energia, che viene usata per fare ATP. Per questo i tuoi appunti dicono che l’ossigeno “ossida” (è un combustore).</div>
+        <p style="margin-top:0.7rem;">Gli scarti sono <strong>CO₂</strong> (la espelli con l’espirazione) e <strong>H₂O</strong> (la trattieni): non danno problemi.</p>
       </div>
 
       <div class="card">
-        <h2><span class="badge badge-lactic">Lattacido</span> Glicolisi anaerobica e lattato</h2>
-        <h3>Tappa 1: glicolisi (uguale a quella aerobica)</h3>
+        <h2><span class="badge badge-lactic">Lattacido</span> Glucosio senza ossigeno</h2>
         <div class="formula">
-          Glucosio + 2 NAD⁺ + 2 ADP + 2 Pi → 2 Piruvato + 2 NADH + 2 H⁺ + <span class="energy">2 ATP</span> + 2 H₂O
+          Glucosio + ADP + P → ATP + <span class="waste">La⁻</span>
         </div>
-        <h3>Il problema: serve NAD⁺</h3>
-        <p>Il NAD⁺ è il “taxi” e qui si è riempito (NADH). Senza ossigeno non può scaricare gli elettroni nella catena respiratoria. Se i taxi restano pieni, la glicolisi si ferma. Soluzione d’emergenza: scaricarli sul piruvato.</p>
-        <h3>Tappa 2: piruvato → lattato</h3>
-        <div class="formula">
-          Piruvato + NADH + H⁺ ⇄ <span class="waste">Lattato⁻</span> + NAD⁺
-          <span class="enz">enzima: lattato deidrogenasi (LDH)</span>
-        </div>
-        <h3>Reazione netta (quella dei tuoi appunti)</h3>
-        <div class="formula">
-          Glucosio + 2 ADP + 2 Pi → 2 <span class="waste">Lattato⁻</span> + 2 H⁺ + <span class="energy">2 ATP</span> + 2 H₂O
-        </div>
-        <div class="highlight">
-          <strong>Resa:</strong> 2 ATP contro i 38 dell’aerobico (≈ 19 volte meno). Se il glucosio parte dal glicogeno muscolare sono 3. Però è molto più veloce: pochi passaggi, nessun bisogno di ossigeno.
-        </div>
-
-        <h3>Lattato, acido lattico e H⁺: cosa disegni nel tuo schema</h3>
-        <div class="formula">CH₃–CHOH–COOH ⇄ CH₃–CHOH–COO⁻ + H⁺<span class="sub">acido lattico ⇄ lattato⁻ (carica negativa) + protone</span></div>
-        <p>L’acido lattico a pH fisiologico è quasi tutto separato in <strong>lattato⁻</strong> e <strong>H⁺</strong>. Nel tuo disegno le cariche negative (La⁻) e i protoni (H⁺) si accumulano nella cellula e “cercano equilibrio”: un La⁻ che si lega a un H⁺ forma l’acido lattico (La⁻H⁺).</p>
-        <h3>Come si difende il corpo: il sistema tampone</h3>
-        <div class="formula">H⁺ + HCO₃⁻ ⇄ H₂CO₃ ⇄ <span class="good">CO₂</span> + H₂O<span class="sub">bicarbonato (tampone) → acido carbonico → CO₂ che viene espirata</span></div>
-        <p>È uno dei motivi per cui, oltre una certa intensità, la respirazione accelera di colpo: stai espellendo la CO₂ extra generata dal tampone.</p>
-        <div class="warning"><strong>Perché fa male alle prestazioni:</strong> più H⁺ → pH muscolare che scende (da ≈ 7,0 verso ≈ 6,5) → enzimi come la fosfofruttochinasi (PFK) rallentano e la contrazione perde efficacia. Qui nasce il “sistema autolimitante” dei tuoi appunti.</div>
-        <p style="margin-top:0.6rem;color:var(--muted);font-size:0.9rem;"><strong>Per i più curiosi (non necessario per l’esame, controlla con il tuo prof):</strong> nella letteratura recente il lattato non è più visto come un semplice scarto. Viene riutilizzato come combustibile da cuore e fibre lente, o riconvertito in glucosio dal fegato (ciclo di Cori). Alcuni autori sostengono inoltre che l’acidosi derivi soprattutto dall’idrolisi dell’ATP e non dalla produzione di lattato in sé.</p>
-        <p style="margin-top:0.6rem;"><span class="goto" data-goto="lattacido">← torna al tab Lattacido</span></p>
+        <p><strong>La⁻</strong> è il <strong>lattato</strong> e ha carica negativa. Il glucosio viene spezzato solo in parte (“parziale”): si ricava energia in fretta, ma resta uno scarto.</p>
+        <div class="highlight"><strong>Esempio:</strong> è come un fuoco con poca aria. La legna non brucia del tutto, fa meno energia e lascia del carbone. Nell’aerobico invece (tanta aria) il glucosio “brucia” completamente e resta solo CO₂ + H₂O.</div>
+        <h3>Perché nasce l’acido lattico?</h3>
+        <p>L’organismo cerca sempre l’<strong>equilibrio</strong>. Se nella cellula si accumulano troppe cariche negative (La⁻), servono cariche positive per bilanciarle: arrivano gli ioni <strong>H⁺</strong>.</p>
+        <div class="formula">La⁻ + H⁺ → La⁻H⁺ = <span class="waste">ACIDO LATTICO</span></div>
+        <p><strong>Esempio:</strong> due calamite si attirano se hanno poli opposti (+ e −). Allo stesso modo H⁺ e La⁻ si uniscono.</p>
       </div>
 
       <div class="card">
         <h2><span class="badge badge-alactic">Alattacido</span> La fosfocreatina</h2>
-        <div class="formula">
-          PC + ADP + H⁺ ⇄ <span class="energy">ATP</span> + Creatina
-          <span class="enz">enzima: creatinchinasi (CK)</span>
-          <span class="sub">nei tuoi appunti: P~C + ADP → ATP + C</span>
-        </div>
-        <p>La fosfocreatina è una <strong>creatina con un fosfato attaccato da un legame “teso”</strong> (la tilde ~). Basta un incontro con l’ADP e il fosfato passa all’ADP, che diventa ATP: un solo passaggio, un solo enzima.</p>
-        <div class="highlight"><strong>Perché il fosfato salta proprio da PC ad ADP?</strong> Il legame della PC è ancora più energetico di quello dell’ATP (ΔG ≈ −10,3 contro ≈ −7,3 kcal/mol). Come una palla che rotola da un gradino più alto a uno più basso: la direzione è favorita. Si chiama <strong>reazione accoppiata</strong>.</div>
+        <p>La fosfocreatina (<strong>PC</strong>) è una molecola formata da <strong>creatina (C)</strong> con un <strong>fosfato (P)</strong> attaccato con un legame “molla”.</p>
+        <div class="formula"><span class="energy">P ~ C</span></div>
+        <p>Quando serve energia subito:</p>
         <ul class="clean">
-          <li><strong>Dove:</strong> sarcoplasma, vicino alle miofibrille (dove serve l’ATP)</li>
-          <li><strong>Scorta:</strong> la PC è circa 3–4 volte l’ATP. Poco, ma subito disponibile</li>
-          <li><strong>Niente O₂, niente lattato</strong>, anzi la reazione consuma un H⁺</li>
+          <li>Il legame si rompe: il <strong>P</strong> si stacca dalla creatina e si libera <span class="energy">energia</span></li>
+          <li>Il P si unisce all’<strong>ADP</strong> e forma di nuovo <strong>ATP</strong></li>
+          <li>Rimane solo la creatina (C)</li>
         </ul>
-        <h3>Come si ricostruisce la PC (recupero)</h3>
-        <div class="formula">Creatina + ATP → PC + ADP<span class="sub">reazione inversa, alimentata dall’ATP prodotto dal sistema aerobico</span></div>
-        <p>Il dimezzamento della carenza di PC richiede circa <strong>30 secondi</strong>; il ripristino quasi completo 3–5 minuti. Quindi anche per sprint ripetuti conta il sistema aerobico: chi ha un buon motore aerobico recupera la PC più in fretta.</p>
-        <p style="margin-top:0.6rem;"><span class="goto" data-goto="alattacido">← torna al tab Alattacido</span></p>
+        <div class="formula">PC + ADP → <span class="good">ATP</span> + C</div>
+        <div class="highlight"><strong>Esempio:</strong> è come passarsi una palla. La creatina passa il fosfato all’ADP, che diventa ATP. Basta un solo passaggio, per questo è velocissimo. Non servono né ossigeno né glucosio, e non nasce nessun lattato.</div>
       </div>
 
       <div class="card">
-        <h2>Tabella riassuntiva chimica</h2>
-        <div class="chem-table-wrap">
-        <table class="chem-table">
-          <tr><th></th><th>Aerobico</th><th>Lattacido</th><th>Alattacido</th></tr>
-          <tr><td>Dove</td><td>Citoplasma + mitocondri (tutte le cellule)</td><td>Citoplasma (solo muscolo)</td><td>Sarcoplasma</td></tr>
-          <tr><td>Reazione netta</td><td>C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O</td><td>C₆H₁₂O₆ → 2 lattato⁻ + 2 H⁺</td><td>PC + ADP → ATP + C</td></tr>
-          <tr><td>Resa ATP</td><td>≈ 38 (classico) / 30–32</td><td>2 (3 da glicogeno)</td><td>1 ATP per PC</td></tr>
-          <tr><td>Enzima chiave</td><td>ATP-sintasi, deidrogenasi</td><td>LDH, PFK</td><td>Creatinchinasi</td></tr>
-          <tr><td>Scarti</td><td>CO₂ + H₂O</td><td>Lattato⁻ + H⁺</td><td>Creatina</td></tr>
-          <tr><td>Velocità</td><td>Lenta</td><td>Media</td><td>Massima</td></tr>
-          <tr><td>Durata</td><td>Ore</td><td>≈ 1–3 min</td><td>≈ 10–15 s</td></tr>
-        </table>
+        <h2>Riepilogo delle formule</h2>
+        <div class="formula" style="text-align:left;">
+          <strong>Usare ATP:</strong> ATP → ADP + P + Energia<br><br>
+          <strong>Ricaricare ATP:</strong> ADP + P + Energia → ATP<br><br>
+          <strong>Aerobico:</strong> Glucosio + O₂ → CO₂ + H₂O + Energia (38 ATP)<br><br>
+          <strong>Lattacido:</strong> Glucosio + ADP + P → ATP + La⁻<br><br>
+          <strong>Alattacido:</strong> PC + ADP → ATP + C
         </div>
       </div>
     </div>
@@ -914,7 +813,7 @@
     </div>
 
     <footer>
-      Basata sugli appunti di fisiologia · ATP, ciclo di Krebs, glicolisi, fosfocreatina e reazioni chimiche
+      Basata sugli appunti di fisiologia · ATP, ciclo di Krebs, glicolisi e fosfocreatina
     </footer>
   </div>
 
@@ -926,14 +825,6 @@
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
-
-    // ===== LINK TRA TAB =====
-    document.querySelectorAll('[data-goto]').forEach(el => {
-      el.addEventListener('click', () => {
-        document.querySelector('.tab-btn[data-tab="' + el.dataset.goto + '"]').click();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     });
 
@@ -966,16 +857,10 @@
       { q: "Quale molecola alimenta il sistema alattacido?", a: "La fosfocreatina (PC). Reazione rapidissima." },
       { q: "Analogia del sistema aerobico?", a: "Fiat Panda: consuma poco, va lontano, ma è lenta." },
       { q: "Analogia del sistema alattacido?", a: "Dragster: potenza massima, ma autonomia di pochi secondi." },
-      { q: "Qual è la reazione netta del metabolismo aerobico del glucosio?", a: "C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O + energia (≈ 38 ATP)." },
-      { q: "Che ruolo ha l’O₂ nella catena respiratoria?", a: "È l’accettore finale degli elettroni: li prende e forma H₂O." },
-      { q: "Cosa sono NAD⁺/NADH e FAD/FADH₂?", a: "Trasportatori di elettroni (“taxi”): raccolgono e⁻ dal glucosio e li portano alla catena respiratoria." },
-      { q: "Qual è la reazione netta della glicolisi lattacida?", a: "Glucosio + 2 ADP + 2 Pi → 2 lattato⁻ + 2 H⁺ + 2 ATP + 2 H₂O." },
-      { q: "Perché la glicolisi anaerobica produce lattato?", a: "Per rigenerare NAD⁺ (piruvato + NADH + H⁺ → lattato⁻ + NAD⁺, enzima LDH) e poter continuare a produrre ATP." },
-      { q: "Come si difende il corpo dagli H⁺ in eccesso?", a: "Con il tampone bicarbonato: H⁺ + HCO₃⁻ ⇄ H₂CO₃ ⇄ CO₂ + H₂O. La CO₂ viene espirata." },
-      { q: "Qual è la reazione dell’alattacido e quale enzima la catalizza?", a: "PC + ADP + H⁺ ⇄ ATP + creatina. Enzima: creatinchinasi (CK)." },
-      { q: "Perché la PC cede il fosfato all’ADP?", a: "Il suo legame è più energetico di quello dell’ATP (≈ −10,3 contro ≈ −7,3 kcal/mol): reazione accoppiata favorita." },
-      { q: "Quanto vale l’RQ del glucosio e dei grassi (palmitato)?", a: "Glucosio 1,00 (6 CO₂ / 6 O₂). Palmitato ≈ 0,70 (16 CO₂ / 23 O₂)." },
-      { q: "Dove si incontrano la via dei glucidi e quella dei lipidi?", a: "Nell’Acetil-CoA: glucidi via glicolisi, lipidi via β-ossidazione. Poi entrano entrambi nel Ciclo di Krebs." }
+      { q: "Come si scrive la formula del metabolismo aerobico?", a: "Glucosio + O₂ → CO₂ + H₂O + energia (38 ATP). In numeri: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O." },
+      { q: "Come si scrive la formula del metabolismo lattacido?", a: "Glucosio + ADP + P → ATP + La⁻ (lattato, con carica negativa)." },
+      { q: "Cosa succede tra La⁻ e H⁺?", a: "Si uniscono (cariche opposte) e formano La⁻H⁺ = acido lattico." },
+      { q: "Come si scrive la formula del metabolismo alattacido?", a: "PC + ADP → ATP + C. La fosfocreatina passa il fosfato all’ADP." }
     ];
 
     let currentCard = 0;
@@ -1054,44 +939,19 @@
         correct: 1
       },
       {
-        q: "Qual è la reazione netta del metabolismo aerobico del glucosio?",
-        options: ["C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O", "C₆H₁₂O₆ → 2 lattato⁻ + 2 H⁺", "C₆H₁₂O₆ + 6 CO₂ → 6 O₂ + 6 H₂O", "PC + ADP → ATP + C"],
+        q: "Quale formula rappresenta il metabolismo aerobico?",
+        options: ["Glucosio + O₂ → CO₂ + H₂O + energia", "Glucosio + ADP + P → ATP + La⁻", "PC + ADP → ATP + C", "ATP → ADP + P"],
         correct: 0
       },
       {
-        q: "Nella catena respiratoria, l’ossigeno finisce in:",
-        options: ["CO₂", "H₂O", "Glucosio", "Lattato"],
+        q: "Cosa forma l’unione tra La⁻ e H⁺?",
+        options: ["Glucosio", "Acido lattico", "Creatina", "Acqua"],
         correct: 1
       },
       {
-        q: "Perché senza ossigeno il piruvato viene trasformato in lattato?",
-        options: ["Per produrre più ATP", "Per rigenerare NAD⁺ e permettere alla glicolisi di continuare", "Per eliminare la CO₂", "Per ricostruire la fosfocreatina"],
-        correct: 1
-      },
-      {
-        q: "Quanti ATP netti produce la glicolisi anaerobica a partire da 1 glucosio?",
-        options: ["1", "2", "12", "38"],
-        correct: 1
-      },
-      {
-        q: "Quale enzima catalizza PC + ADP → ATP + creatina?",
-        options: ["Lattato deidrogenasi", "ATP-sintasi", "Creatinchinasi", "Fosfofruttochinasi"],
-        correct: 2
-      },
-      {
-        q: "Perché la fosfocreatina riesce a ricaricare l’ADP?",
-        options: ["Ha un legame più energetico di quello dell’ATP", "Contiene ossigeno", "Produce lattato", "Si trova nei mitocondri"],
+        q: "Nella reazione PC + ADP → ATP + C, cosa succede al fosfato?",
+        options: ["Si stacca dalla creatina e si unisce all’ADP", "Si trasforma in CO₂", "Si trasforma in lattato", "Resta attaccato alla creatina"],
         correct: 0
-      },
-      {
-        q: "Il quoziente respiratorio (RQ) dei grassi (palmitato) è circa:",
-        options: ["0,70", "1,00", "1,30", "2,00"],
-        correct: 0
-      },
-      {
-        q: "Il tampone bicarbonato trasforma gli H⁺ in eccesso in:",
-        options: ["Lattato", "CO₂ e H₂O", "Glucosio", "Creatina"],
-        correct: 1
       }
     ];
 
