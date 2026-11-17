@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guida Studio Rapida — ATP e Metabolismi Energetici</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --card-hover: #243044;
+      --accent: #3b82f6;
+      --accent-soft: #1e3a5f;
+      --aerobic: #22c55e;
+      --lactic: #f59e0b;
+      --alactic: #ef4444;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: #2d3a4f;
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 0 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* NAV TABS */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      padding: 0.75rem 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover { background: var(--card-hover); color: var(--text); }
+    .tab-btn.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #93c5fd;
+    }
+
+    .panel { display: none; animation: fadeIn 0.25s ease; }
+    .panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem;
+      color: #93c5fd;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-aerobic { background: rgba(34,197,94,0.2); color: var(--aerobic); }
+    .badge-lactic { background: rgba(245,158,11,0.2); color: var(--lactic); }
+    .badge-alactic { background: rgba(239,68,68,0.2); color: var(--alactic); }
+    .badge-atp { background: rgba(59,130,246,0.2); color: #60a5fa; }
+
+    .formula {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 0.9rem;
+      margin: 0.75rem 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    .formula .energy { color: #fbbf24; font-weight: 700; }
+    .formula .waste { color: #f87171; }
+    .formula .good { color: #4ade80; }
+
+    ul.clean {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.clean li {
+      padding: 0.35rem 0 0.35rem 1.4rem;
+      position: relative;
+    }
+
+    ul.clean li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .highlight {
+      background: rgba(59,130,246,0.12);
+      border-left: 3px solid var(--accent);
+      padding: 0.7rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 0.8rem 0;
+      font-size: 0.95rem;
+    }
+
+    .warning {
+      background: rgba(245,158,11,0.1);
+      border-left: 3px solid var(--lactic);
+      padding: 0.7rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 0.8rem 0;
+    }
+
+    /* COMPARISON GRID */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .compare-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .compare-card:hover { transform: translateY(-3px); }
+
+    .compare-card.aerobic { border-top: 3px solid var(--aerobic); }
+    .compare-card.lactic { border-top: 3px solid var(--lactic); }
+    .compare-card.alactic { border-top: 3px solid var(--alactic); }
+
+    .compare-card .emoji {
+      font-size: 2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .compare-card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(45,58,79,0.6);
+    }
+
+    .stat:last-child { border-bottom: none; }
+    .stat span:last-child { font-weight: 600; color: #cbd5e1; }
+
+    /* ACCORDION */
+    .accordion-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      width: 100%;
+      padding: 0.9rem 1.1rem;
+      background: var(--card);
+      border: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .accordion-header:hover { background: var(--card-hover); }
+    .accordion-header .arrow { transition: transform 0.25s; font-size: 0.8rem; color: var(--muted); }
+    .accordion-header.open .arrow { transform: rotate(180deg); }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #141c27;
+    }
+
+    .accordion-body.open { max-height: 600px; }
+    .accordion-body-inner { padding: 1rem 1.2rem 1.2rem; font-size: 0.92rem; }
+
+    /* QUIZ */
+    .quiz-q {
+      margin-bottom: 1.4rem;
+    }
+
+    .quiz-q p {
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .option {
+      padding: 0.7rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .option:hover:not(.disabled) { background: var(--card-hover); border-color: #4b5e7a; }
+    .option.correct { background: rgba(34,197,94,0.15); border-color: var(--success); color: #86efac; }
+    .option.wrong { background: rgba(239,68,68,0.15); border-color: var(--danger); color: #fca5a5; }
+    .option.disabled { cursor: default; opacity: 0.85; }
+
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: none;
+    }
+
+    .feedback.show { display: block; }
+
+    .score-box {
+      text-align: center;
+      padding: 1.2rem;
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 1.5rem;
+      display: none;
+    }
+
+    .score-box.show { display: block; }
+
+    .score-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #60a5fa;
+    }
+
+    /* FLASHCARDS */
+    .flashcard-container {
+      perspective: 1000px;
+      margin: 1rem 0;
+    }
+
+    .flashcard {
+      width: 100%;
+      min-height: 160px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+      cursor: pointer;
+    }
+
+    .flashcard.flipped { transform: rotateY(180deg); }
+
+    .flashcard-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .flashcard-front {
+      background: var(--card);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .flashcard-back {
+      background: #1e293b;
+      transform: rotateY(180deg);
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    .flash-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .flash-nav button {
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .flash-nav button:hover { background: var(--card-hover); }
+
+    .progress-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .dot.active { background: var(--accent); }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 500px) {
+      header h1 { font-size: 1.4rem; }
+      .tab-btn { font-size: 0.78rem; padding: 0.55rem 0.4rem; }
+      .formula { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚡ ATP & Metabolismi Energetici</h1>
+      <p>Guida studio rapida interattiva · Fisiologia dello sport</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="atp">1. ATP</button>
+      <button class="tab-btn" data-tab="aerobico">2. Aerobico</button>
+      <button class="tab-btn" data-tab="lattacido">3. Lattacido</button>
+      <button class="tab-btn" data-tab="alattacido">4. Alattacido</button>
+      <button class="tab-btn" data-tab="confronto">5. Confronto</button>
+      <button class="tab-btn" data-tab="flash">Flashcard</button>
+      <button class="tab-btn" data-tab="quiz">Quiz</button>
+    </nav>
+
+    <!-- ========== TAB ATP ========== -->
+    <div id="atp" class="panel active">
+      <div class="card">
+        <h2><span class="badge badge-atp">Fondamenti</span> Cos'è l'ATP? (in parole semplici)</h2>
+        <p>Immagina l’ATP come una <strong>batteria ricaricabile</strong> che ogni cellula del tuo corpo usa per lavorare.</p>
+        <p><strong>ATP</strong> = Acido Adenosintrifosfato → è fatto di:</p>
+        <ul class="clean">
+          <li>1 pezzo centrale chiamato <strong>adenosina</strong></li>
+          <li>3 “pezzi di energia” chiamati <strong>fosfati</strong> (P)</li>
+        </ul>
+        <div class="formula">A — P — P — P</div>
+        <p>I legami tra questi fosfati sono come molle compresse: quando si spezzano, rilasciano tanta energia (circa <strong>7–12 kcal</strong>).</p>
+      </div>
+
+      <div class="card">
+        <h2>Cosa succede quando usiamo energia?</h2>
+        <p>Ogni volta che muovi un muscolo, pensi, o anche solo respiri, stai “spendendo” ATP.</p>
+        <div class="formula">
+          A — P — P ~ P &nbsp;→&nbsp; A — P — P + <span class="energy">Energia</span> + P
+        </div>
+        <p>Rimane l’<strong>ADP</strong> (Adenosina Difosfato) + un fosfato libero. Sono un po’ come una batteria scarica + un pezzo staccato.</p>
+        <div class="highlight">
+          <strong>Problema:</strong> le scorte di ATP nelle cellule sono poche, bastano per pochi secondi di lavoro intenso.<br>
+          Quindi il corpo deve <strong>ricaricare continuamente</strong> l’ADP + P e trasformarli di nuovo in ATP.
+        </div>
+        <p style="margin-top:0.8rem;"><strong>Esempio concreto:</strong> se fai uno sprint di 10 secondi, le tue cellule muscolari hanno già “bruciato” quasi tutto l’ATP disponibile. Senza un sistema veloce per ricaricarlo, ti fermeresti subito.</p>
+      </div>
+
+      <div class="card">
+        <h2>Come si ricarica l’ATP? Le 3 “centrali elettriche”</h2>
+        <p>Il corpo ha tre modi diversi per rimettere insieme ADP + P e riformare ATP. Si chiamano <strong>metabolismi energetici</strong>:</p>
+        <ul class="clean">
+          <li><strong>Metabolismo Aerobico</strong> → usa ossigeno, è lento ma molto efficiente (come una macchina a basso consumo)</li>
+          <li><strong>Metabolismo Anaerobico Lattacido</strong> → non usa ossigeno, è più veloce ma produce “rifiuti” (lattato)</li>
+          <li><strong>Metabolismo Anaerobico Alattacido</strong> → il più veloce di tutti, ma dura pochissimo</li>
+        </ul>
+        <p style="margin-top:0.8rem;">L’energia per ricaricare arriva dal <strong>cibo</strong> (carboidrati, grassi, proteine) che chiamiamo <em>substrato energetico</em>.</p>
+      </div>
+    </div>
+
+    <!-- ========== TAB AEROBICO ========== -->
+    <div id="aerobico" class="panel">
+      <div class="card">
+        <h2><span class="badge badge-aerobic">Aerobico</span> Metabolismo Aerobico (con ossigeno)</h2>
+        <p>Questo è il sistema che usi quando cammini, fai una camminata lunga, corri piano o stai seduto a studiare.</p>
+        <p>Avviene nei <strong>mitocondri</strong> (le “centrali energetiche” della cellula) e usa una serie di reazioni chiamata <strong>Ciclo di Krebs</strong>.</p>
+        <div class="highlight">
+          In pratica: prendi una molecola di cibo (glucosio o grassi), la “bruci” lentamente con l’ossigeno e ricavi tanta energia per fare ATP.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Cosa brucia?</h3>
+        <ul class="clean">
+          <li><strong>Glucidi</strong> (zucchero, pasta, pane…)</li>
+          <li><strong>Lipidi</strong> (grassi)</li>
+          <li>In misura minore anche le proteine</li>
+        </ul>
+        <p style="margin-top:0.7rem;">Prima di entrare nel Ciclo di Krebs, glucidi e lipidi vengono trasformati in <strong>glucosio</strong> (C₆H₁₂O₆). È come se li riducessi a “benzina già pronta”.</p>
+        <p><strong>Esempio:</strong> quando mangi una banana prima di una corsa lenta, il tuo corpo trasforma i suoi zuccheri in glucosio e lo usa nei mitocondri per produrre ATP per ore.</p>
+      </div>
+
+      <div class="card">
+        <h3>Quanto rende?</h3>
+        <div class="formula">
+          1 molecola di Glucosio → energia per fare circa <span class="good">38 ATP</span>
+        </div>
+        <p>È il sistema <strong>più efficiente</strong>: con poco “carburante” ottieni tantissima energia. Il problema è che è <strong>lento</strong>. Se alzi troppo l’intensità (es. inizi a sprintare), non riesce a tenere il passo.</p>
+        <div class="warning">
+          <strong>Scarti:</strong> solo acqua (H₂O) e anidride carbonica (CO₂).<br>
+          L’acqua la trattieni, la CO₂ la butti fuori respirando. Nessun problema, nessun “avvelenamento”.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Quando lo usi davvero?</h3>
+        <ul class="clean">
+          <li>Camminata, corsa lenta, ciclismo a ritmo comodo, nuoto a bassa intensità</li>
+          <li>Qualsiasi attività che riesci a mantenere per molti minuti o ore senza andare in affanno grave</li>
+        </ul>
+        <p style="margin-top:0.8rem;"><strong>Analogia facile:</strong> è come una Fiat Panda. Consuma poco, va lontano, ma non è fatta per le accelerazioni brusche.</p>
+        <p style="margin-top:0.5rem;color:var(--muted);font-size:0.9rem;">Se l’intensità sale troppo e il consumo di energia supera quello che l’aerobico riesce a produrre → entrano in gioco gli altri due sistemi.</p>
+      </div>
+    </div>
+
+    <!-- ========== TAB LATTACIDO ========== -->
+    <div id="lattacido" class="panel">
+      <div class="card">
+        <h2><span class="badge badge-lactic">Lattacido</span> Metabolismo Anaerobico Lattacido</h2>
+        <p>Questo sistema entra in gioco quando fai uno sforzo <strong>intenso ma non brevissimo</strong>: una ripetuta di 400 metri, una salita ripida in bici, un round di boxe, un esercizio di forza con poche ripetizioni pesanti.</p>
+        <ul class="clean">
+          <li>Funziona <strong>senza ossigeno</strong></li>
+          <li>È presente <strong>solo nei muscoli</strong></li>
+          <li>Usa una reazione chiamata <strong>glicolisi</strong>: spezza il glucosio in modo parziale e veloce</li>
+        </ul>
+        <div class="highlight">
+          “Parziale” significa: non estrae tutta l’energia possibile dal glucosio (come fa l’aerobico), ma è molto più veloce. Il prezzo? Produce uno scarto: il <strong>lattato</strong>.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Cosa brucia e cosa produce</h3>
+        <p>Usa soprattutto i <strong>glucidi</strong> (zucchero già presente nei muscoli e nel sangue).</p>
+        <div class="formula">
+          Glucosio + ADP + P → ATP + <span class="waste">Lattato (La⁻)</span>
+        </div>
+        <p><strong>Esempio pratico:</strong> fai 8 ripetizioni di squat pesanti. Dopo 40-50 secondi le gambe bruciano e “pesano”. Quel bruciore è legato all’accumulo di lattato e ioni H⁺.</p>
+      </div>
+
+      <div class="card">
+        <h3>Quanto dura e quanto è potente?</h3>
+        <ul class="clean">
+          <li>Potenza: buona (molto più veloce dell’aerobico)</li>
+          <li>Durata tipica: circa <strong>1–3 minuti</strong> di sforzo intenso</li>
+        </ul>
+        <p style="margin-top:0.7rem;"><strong>Analogia:</strong> è come un’auto sportiva. Va forte, ha una buona autonomia (non si spegne dopo 5 secondi), ma non può andare a quel ritmo per ore.</p>
+      </div>
+
+      <div class="card">
+        <h3>Perché si spegne da solo? (sistema autolimitante)</h3>
+        <p>Più lattato si accumula, più i muscoli diventano “acidi”. Mandano un segnale di fatica al cervello (SNC). Superata una certa soglia, il cervello dice “basta” e riduce la forza o ti ferma.</p>
+        <div class="warning">
+          Non è un “veleno” permanente: a riposo il corpo smaltisce il lattato. È un meccanismo di protezione per non danneggiare i muscoli.
+        </div>
+        <p style="margin-top:0.6rem;"><strong>Esempio:</strong> alla fine di una gara di 800 metri sei distrutto e le gambe non rispondono più. Dopo 10-15 minuti di recupero, riesci di nuovo a camminare e poi a correre. Il sistema ha “ripulito”.</p>
+      </div>
+    </div>
+
+    <!-- ========== TAB ALATTACIDO ========== -->
+    <div id="alattacido" class="panel">
+      <div class="card">
+        <h2><span class="badge badge-alactic">Alattacido</span> Metabolismo Anaerobico Alattacido</h2>
+        <p>Questo è il sistema dell’<strong>esplosività</strong>. Nessun ossigeno, nessun lattato. Solo potenza pura per pochi secondi.</p>
+        <div class="highlight">
+          È il più semplice e il più potente dei tre. Nell’unità di tempo produce più energia di tutti, ma le “scorte” finiscono in un attimo.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Come funziona? La fosfocreatina</h3>
+        <p>Dentro i muscoli (nel sarcoplasma) c’è una molecola chiamata <strong>fosfocreatina</strong> (PC o PCr). Ha un legame energetico pronto all’uso.</p>
+        <div class="formula">
+          Fosfocreatina + ADP → ATP + Creatina
+        </div>
+        <p>In pratica: la fosfocreatina “regala” il suo fosfato all’ADP e lo trasforma subito in ATP. Reazione rapidissima, quasi istantanea.</p>
+        <p><strong>Esempio:</strong> il primo secondo di uno sprint dei 100 metri, il salto in alto, un lancio del peso, un sollevamento massimale di 1 ripetizione. Quasi tutta l’energia viene da qui.</p>
+      </div>
+
+      <div class="card">
+        <h3>Quanto dura?</h3>
+        <ul class="clean">
+          <li>Potenza: la massima possibile</li>
+          <li>Durata: pochi secondi (circa 0–10/15 secondi di sforzo massimale)</li>
+        </ul>
+        <p style="margin-top:0.7rem;"><strong>Analogia:</strong> è un dragster. Accelerazione pazzesca, ma dopo pochi secondi ha già finito il carburante.</p>
+        <p style="margin-top:0.5rem;">Dopo uno sforzo massimale di 5-8 secondi, se vuoi ripetere, hai bisogno di recupero (anche 1-3 minuti) perché le scorte di fosfocreatina si devono ricostruire.</p>
+      </div>
+
+      <div class="card">
+        <h3>Esempi di sport/attività</h3>
+        <ul class="clean">
+          <li>Sprint 60-100 metri</li>
+          <li>Salti (in alto, in lungo, pliomatrice)</li>
+          <li>Lanci (peso, giavellotto…)</li>
+          <li>Alzate massimali di forza (1RM)</li>
+          <li>Cambi di direzione esplosivi nel calcio o basket</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ========== TAB CONFRONTO ========== -->
+    <div id="confronto" class="panel">
+      <div class="compare-grid">
+        <div class="compare-card aerobic">
+          <div class="emoji">🚗</div>
+          <h3>Aerobico</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.6rem;">Utilitaria (Panda)</p>
+          <div class="stat"><span>O₂</span><span>Sì</span></div>
+          <div class="stat"><span>Scarti</span><span>CO₂ + H₂O</span></div>
+          <div class="stat"><span>ATP / glucosio</span><span>~38</span></div>
+          <div class="stat"><span>Potenza</span><span>Bassa</span></div>
+          <div class="stat"><span>Durata</span><span>Molto lunga</span></div>
+          <div class="stat"><span>Dove</span><span>Mitocondri</span></div>
+        </div>
+
+        <div class="compare-card lactic">
+          <div class="emoji">🏎️</div>
+          <h3>Anaerobico Lattacido</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.6rem;">Auto sportiva</p>
+          <div class="stat"><span>O₂</span><span>No</span></div>
+          <div class="stat"><span>Scarti</span><span>Lattato (La⁻)</span></div>
+          <div class="stat"><span>Via</span><span>Glicolisi</span></div>
+          <div class="stat"><span>Potenza</span><span>Media-Alta</span></div>
+          <div class="stat"><span>Durata</span><span>1–3 min</span></div>
+          <div class="stat"><span>Dove</span><span>Fibre muscolari</span></div>
+        </div>
+
+        <div class="compare-card alactic">
+          <div class="emoji">🏁</div>
+          <h3>Anaerobico Alattacido</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.6rem;">Dragster</p>
+          <div class="stat"><span>O₂</span><span>No</span></div>
+          <div class="stat"><span>Scarti</span><span>Nessuno (La⁻)</span></div>
+          <div class="stat"><span>Via</span><span>Fosfocreatina</span></div>
+          <div class="stat"><span>Potenza</span><span>Massima</span></div>
+          <div class="stat"><span>Durata</span><span>Pochissimi secondi</span></div>
+          <div class="stat"><span>Dove</span><span>Sarcoplasma</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.2rem;">
+        <h2>In pratica: quale sistema stai usando?</h2>
+        <p style="margin-bottom:0.8rem;color:var(--muted);font-size:0.9rem;">Esempi concreti per ragionare velocemente:</p>
+        <ul class="clean">
+          <li><strong>Camminata di 40 minuti o corsa lenta</strong> → quasi tutto aerobico</li>
+          <li><strong>Ripetute di 400 m o un round di combattimento</strong> → tanto lattacido</li>
+          <li><strong>Sprint dei 60-100 m o un salto massimale</strong> → soprattutto alattacido</li>
+          <li><strong>Partita di calcio / basket</strong> → mix continuo dei tre (a seconda del momento)</li>
+        </ul>
+        <p style="margin-top:0.9rem;">Nella realtà i tre sistemi lavorano quasi sempre insieme: cambia solo quale è dominante in quel momento.</p>
+      </div>
+
+      <div class="card" style="margin-top:1.2rem;">
+        <h2>Domande frequenti (clicca per aprire)</h2>
+        <div class="accordion-item">
+          <button class="accordion-header">Perché l’ATP va ricaricato continuamente? <span class="arrow">▼</span></button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Perché ne abbiamo pochissimo immagazzinato. Bastano pochi secondi di sforzo intenso per “scaricare” le batterie. Se non lo ricarichiamo subito, i muscoli si fermano. Per questo esistono i tre sistemi di risintesi.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">Perché dopo uno sforzo intenso le gambe “bruciano”? <span class="arrow">▼</span></button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Perché stai usando il sistema lattacido. Si accumula lattato e ioni H⁺, l’ambiente diventa più acido e i muscoli segnalano fatica al cervello. È un meccanismo di protezione, non un danno permanente. Con il recupero il corpo smaltisce tutto.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">Cosa significa che il glucosio è “benzina pronta”? <span class="arrow">▼</span></button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Grassi e carboidrati complessi devono prima essere spezzati e trasformati. Il glucosio è già nella forma semplice che il Ciclo di Krebs può usare subito, come benzina già nel serbatoio.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">Posso “allenare” questi sistemi? <span class="arrow">▼</span></button>
+          <div class="accordion-body">
+            <div class="accordion-body-inner">
+              Sì. L’allenamento specifico migliora la capacità di ogni sistema: lavoro lungo e lento per l’aerobico, ripetute intense di 1-3 minuti per il lattacido, sprint e lavori esplosivi con recupero lungo per l’alattacido.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TAB FLASHCARD ========== -->
+    <div id="flash" class="panel">
+      <div class="card">
+        <h2>Flashcard — Clicca per girare</h2>
+        <div class="flashcard-container">
+          <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-face flashcard-front" id="fc-front">Domanda</div>
+            <div class="flashcard-face flashcard-back" id="fc-back">Risposta</div>
+          </div>
+        </div>
+        <div class="progress-dots" id="dots"></div>
+        <div class="flash-nav">
+          <button onclick="prevCard()">← Precedente</button>
+          <button onclick="nextCard()">Successiva →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TAB QUIZ ========== -->
+    <div id="quiz" class="panel">
+      <div class="card">
+        <h2>Quiz di autovalutazione</h2>
+        <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1.2rem;">Scegli la risposta corretta. Riceverai feedback immediato.</p>
+
+        <div id="quiz-container"></div>
+
+        <div class="score-box" id="score-box">
+          <div>Punteggio</div>
+          <div class="score-num" id="score-num">0/0</div>
+          <p id="score-msg" style="margin-top:0.5rem;color:var(--muted);"></p>
+          <button onclick="resetQuiz()" style="margin-top:1rem;padding:0.5rem 1.2rem;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-weight:600;">Ricomincia</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Basata sugli appunti di fisiologia · ATP, ciclo di Krebs, glicolisi e fosfocreatina
+    </footer>
+  </div>
+
+  <script>
+    // ===== TABS =====
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ===== ACCORDION =====
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const body = header.nextElementSibling;
+        const isOpen = header.classList.contains('open');
+        // close all
+        document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
+        document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('open'));
+        if (!isOpen) {
+          header.classList.add('open');
+          body.classList.add('open');
+        }
+      });
+    });
+
+    // ===== FLASHCARDS =====
+    const cards = [
+      { q: "Cosa significa ATP in parole semplici?", a: "È la “batteria” della cellula. Acido Adenosintrifosfato = 1 adenosina + 3 fosfati." },
+      { q: "Perché l’ATP deve essere continuamente ricaricato?", a: "Perché le scorte sono pochissime: bastano pochi secondi di sforzo intenso." },
+      { q: "Quali sono i tre modi per ricaricare l’ATP?", a: "Aerobico (con O₂), Anaerobico Lattacido, Anaerobico Alattacido." },
+      { q: "Dove avviene il metabolismo aerobico?", a: "Nei mitocondri, attraverso il Ciclo di Krebs." },
+      { q: "Quante ATP si ricavano da 1 glucosio in aerobiosi?", a: "Circa 38. È il sistema più efficiente." },
+      { q: "Quali sono gli scarti del sistema aerobico?", a: "Solo CO₂ e H₂O → innocui (respiriamo via la CO₂)." },
+      { q: "Il sistema lattacido usa ossigeno?", a: "No. Funziona in assenza di O₂ e produce lattato." },
+      { q: "Perché dopo uno sforzo intenso le gambe bruciano?", a: "Per l’accumulo di lattato e ioni H⁺ (sistema lattacido)." },
+      { q: "Quanto dura tipicamente il sistema lattacido?", a: "Circa 1–3 minuti di sforzo intenso." },
+      { q: "Quale molecola alimenta il sistema alattacido?", a: "La fosfocreatina (PC). Reazione rapidissima." },
+      { q: "Analogia del sistema aerobico?", a: "Fiat Panda: consuma poco, va lontano, ma è lenta." },
+      { q: "Analogia del sistema alattacido?", a: "Dragster: potenza massima, ma autonomia di pochi secondi." }
+    ];
+
+    let currentCard = 0;
+    let flipped = false;
+
+    function renderCard() {
+      const fc = document.getElementById('flashcard');
+      fc.classList.remove('flipped');
+      flipped = false;
+      document.getElementById('fc-front').textContent = cards[currentCard].q;
+      document.getElementById('fc-back').textContent = cards[currentCard].a;
+      // dots
+      const dots = document.getElementById('dots');
+      dots.innerHTML = cards.map((_, i) =>
+        `<div class="dot ${i === currentCard ? 'active' : ''}"></div>`
+      ).join('');
+    }
+
+    function flipCard() {
+      flipped = !flipped;
+      document.getElementById('flashcard').classList.toggle('flipped', flipped);
+    }
+
+    function nextCard() {
+      currentCard = (currentCard + 1) % cards.length;
+      renderCard();
+    }
+
+    function prevCard() {
+      currentCard = (currentCard - 1 + cards.length) % cards.length;
+      renderCard();
+    }
+
+    renderCard();
+
+    // ===== QUIZ =====
+    const questions = [
+      {
+        q: "L’ATP è composto da:",
+        options: ["1 adenosina + 2 fosfati", "1 adenosina + 3 fosfati", "2 adenosina + 3 fosfati", "Solo fosfati ad alta energia"],
+        correct: 1
+      },
+      {
+        q: "Il metabolismo aerobico avviene principalmente:",
+        options: ["Nel sarcoplasma", "Nei mitocondri", "Nel nucleo cellulare", "Nel sangue"],
+        correct: 1
+      },
+      {
+        q: "Da 1 molecola di glucosio in aerobiosi si ottengono circa:",
+        options: ["2 ATP", "12 ATP", "38 ATP", "100 ATP"],
+        correct: 2
+      },
+      {
+        q: "Lo scarto caratteristico del metabolismo anaerobico lattacido è:",
+        options: ["CO₂", "Acqua", "Lattato", "Creatina"],
+        correct: 2
+      },
+      {
+        q: "Il sistema anaerobico alattacido si basa su:",
+        options: ["Glicolisi", "Ciclo di Krebs", "Fosfocreatina", "Beta-ossidazione"],
+        correct: 2
+      },
+      {
+        q: "Quale sistema ha la durata più lunga?",
+        options: ["Alattacido", "Lattacido", "Aerobico", "Tutti uguali"],
+        correct: 2
+      },
+      {
+        q: "L’analogia del “dragster” corrisponde a:",
+        options: ["Metabolismo aerobico", "Metabolismo lattacido", "Metabolismo alattacido", "Nessuno"],
+        correct: 2
+      },
+      {
+        q: "Il metabolismo lattacido è presente:",
+        options: ["In tutte le cellule", "Solo nelle fibre muscolari", "Solo nel fegato", "Solo nel cervello"],
+        correct: 1
+      }
+    ];
+
+    let answered = 0;
+    let score = 0;
+
+    function buildQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+      answered = 0;
+      score = 0;
+      document.getElementById('score-box').classList.remove('show');
+
+      questions.forEach((item, qi) => {
+        const div = document.createElement('div');
+        div.className = 'quiz-q';
+        div.innerHTML = `<p>${qi + 1}. ${item.q}</p>`;
+        const opts = document.createElement('div');
+        opts.className = 'options';
+
+        item.options.forEach((opt, oi) => {
+          const btn = document.createElement('div');
+          btn.className = 'option';
+          btn.textContent = opt;
+          btn.addEventListener('click', () => {
+            if (btn.classList.contains('disabled')) return;
+            // disable all
+            opts.querySelectorAll('.option').forEach(o => o.classList.add('disabled'));
+            if (oi === item.correct) {
+              btn.classList.add('correct');
+              score++;
+            } else {
+              btn.classList.add('wrong');
+              opts.children[item.correct].classList.add('correct');
+            }
+            answered++;
+            if (answered === questions.length) showScore();
+          });
+          opts.appendChild(btn);
+        });
+        div.appendChild(opts);
+        container.appendChild(div);
+      });
+    }
+
+    function showScore() {
+      const box = document.getElementById('score-box');
+      box.classList.add('show');
+      document.getElementById('score-num').textContent = `${score}/${questions.length}`;
+      const pct = Math.round((score / questions.length) * 100);
+      let msg = '';
+      if (pct === 100) msg = 'Perfetto! Hai padronanza completa degli argomenti.';
+      else if (pct >= 75) msg = 'Ottimo lavoro! Solo qualche dettaglio da rivedere.';
+      else if (pct >= 50) msg = 'Buona base. Rivedi le sezioni dove hai sbagliato.';
+      else msg = 'Rivedi bene le schede e riprova. Ce la farai!';
+      document.getElementById('score-msg').textContent = msg;
+    }
+
+    function resetQuiz() {
+      buildQuiz();
+    }
+
+    buildQuiz();
+  </script>
+</body>
+</html>
